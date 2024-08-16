@@ -86,3 +86,4 @@ storybook-static/
 
 # Webpack files
 .webpack/
+.vercel

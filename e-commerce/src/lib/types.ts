@@ -11,3 +11,11 @@ export type FooterSection = {
 export type FooterProps = {
   footerLinks: FooterSection[];
 };
+
+export type User = {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  country: string;
+};
