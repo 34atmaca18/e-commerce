@@ -1,0 +1,429 @@
+$darkgrey: rgb(161, 161, 161);
+$grey: rgb(201, 201, 201);
+
+.cardContainer {
+    width: 100%;
+    padding: 0 150px;
+
+    .innerContainer {
+        width: 100%;
+        min-height: 600px;
+        background-color: $darkgrey;
+        border-radius: 30px;
+        padding: 20px;
+        display: flex;
+        gap: 30px;
+        height: fit-content;
+
+        .innerLeft {
+            width: 70%;
+            padding: 20px 20px 100px 20px;
+            background-color: $grey;
+            border-radius: 10px;
+            position: relative;
+
+            .emptyCardContainer {
+                width: fit-content;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                gap: 5px;
+                right: 10px;
+                bottom: 10px;
+                cursor: pointer;
+                border-bottom: 2px solid white;
+                padding-bottom: 2px;
+                font-weight: 600;
+                
+                &:hover {
+                    scale: 0.8;
+                }
+                span{
+                    font-size: 13px;
+                }
+            }
+
+            .productsList {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+                height: fit-content;
+
+                .products {
+                    display: flex;
+                    gap: 10px;
+                    width: 100%;
+                    height: 130px;
+                    background-color: $darkgrey;
+                    border-radius: 5px;
+                    padding: 12px;
+                    position: relative;
+
+                    &:hover {
+                        .deleteContainer {
+                            opacity: 1;
+                        }
+                    }
+
+                    .deleteContainer {
+                        position: absolute;
+                        right: 10px;
+                        top: 10px;
+                        opacity: 0;
+                        
+                        .deleteIcon {
+                            cursor: pointer;
+
+                            &:hover {
+                                filter: brightness(85%);
+                            }
+                        }
+                    }
+
+                    .productImage {
+                        height: 100%;
+                        width: 120px;
+                        background-color: white;
+                        border-radius: 5px;
+                    }
+
+                    .productInfo {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+
+                        .productTitles {
+                            h2 {
+                                font-size: 18px;
+                                font-weight: 900;
+                            }
+                            p {
+                                font-size: 13px;
+                                position: relative;
+                                bottom: 3px;
+                            }
+                        }
+
+                        .productPrice {
+                            font-size: 13.5px;
+                            font-weight: 700;
+                        }
+                    }
+                    .counterContainer {
+                        position: absolute;
+                        right: 10px;
+                        bottom: 10px;
+
+                        .counter {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            height: 30px;
+                            border: 1px solid white;
+                            border-radius: 20px;
+                            padding: 3px 10px;
+                            gap: 15px;
+
+                            &:hover {
+                                border-color: black;
+                            }
+
+                            .counterImages {
+                                cursor: pointer;
+
+                                &:hover {
+                                    filter: brightness(80%);
+                                }
+                            }
+                            .count {
+                                font-size: 13px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .innerRight {
+            width: 30%;
+            background-color: $grey;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            .rightTop {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                .shoppingTitle {
+                    font-size: 22px;
+                    font-weight: 800;
+                    border-bottom: 2px solid white;
+                    width: fit-content;
+                }
+                .shoppingTotalTitle {
+                    font-size: 18px;
+                    font-weight: 800;
+                }
+                p {
+                    font-size: 15px;
+                    font-weight: 700;
+                    position: relative;
+                    bottom: 13px;
+                }
+            }
+            .formContainer {
+                .formShopping {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 50px;
+
+                    .couponContainer {
+                        .couponTitle {
+                            font-size: 17px;
+                            font-weight: 800;
+                        }
+                        .inputContainer {
+                            width: 100%;
+                            display: flex;
+                            height: 43px;
+                            color: white;
+
+                            &:hover {
+                                input,button {
+                                    border-color: black;
+                                }
+                            }
+                            input {
+                                background-color: $darkgrey;
+                                width: 77%;
+                                height: 100%;
+                                color: white;
+                                border: 2px solid white;
+                                padding: 2px 10px;
+                                font-size: 13px;
+                                font-weight: 600;
+
+                                &::placeholder {
+                                    font-size: 13px;
+                                }
+                            }
+                            button {
+                                background-color: $grey;
+                                border: 2px solid white;
+                                height: 100%;
+                                font-size: 15px;
+                                font-weight: 800;
+                                border-left: none;
+                                cursor: pointer;
+                                color: white;
+                                width: 23%;
+
+                                &:hover {
+                                    background-color: $darkgrey;
+                                }
+                            }
+                        }
+                    }
+                    .completeContainer {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 3px;
+                        width: 100%;
+                        align-items: center;
+
+                        p {
+                            font-weight: 700;
+                            font-size: 16px;
+                        }
+                        button {
+                            background-color: $grey;
+                            border: 2px solid white;
+                            padding: 5px 10px;
+                            font-size: 15px;
+                            font-weight: 800;
+                            color: white;
+                            border-radius: 3px;
+                            cursor: pointer;
+                            position: relative;
+                            overflow: hidden;
+                            z-index: 0;
+
+                            &:hover {
+                                border-color: black;
+                                &::before {
+                                    width: 100%;
+                                    transition: all ease-in-out 0.4s;
+                                }
+                            }
+    
+                            &::before {
+                                content: '';
+                                position: absolute;
+                                left: 0;
+                                top: 0;
+                                width: 0;
+                                height: 100%;
+                                z-index: -1;
+                                background-color: $darkgrey;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1600px) {
+    .cardContainer {
+        padding: 0 50px;
+    }
+}
+
+@media screen and (max-width: 1300px) {
+    .cardContainer {
+        .innerContainer {
+            .innerLeft {
+                width: 65%;
+            }
+            .innerRight {
+                width: 35%;
+                .formContainer{
+                    .formShopping{
+                        .couponContainer{
+                            .inputContainer{
+                                input{
+                                    width: 70%;
+                                }
+                                button {
+                                    width: 30%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width: 1000px) {
+    .cardContainer {
+        padding: 0 20px;
+        .innerContainer {
+            flex-direction: column;
+            .innerLeft {
+                width: 100%;
+            }
+            .innerRight {
+                width: 100%;
+                .formContainer{
+                    .formShopping{
+                        .couponContainer{
+                            .inputContainer{
+                                width: 70%;
+                                input{
+                                    width: 70%;
+                                }
+                                button {
+                                    width: 30%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .cardContainer {
+        .innerContainer {
+            padding: 5px;
+            overflow: hidden;
+            border-radius: 5px;
+            .innerLeft {
+                padding: 6px;
+                .productsList {
+                    .products {
+                        height: 160px;
+                        .productImage {
+                            max-width: 120px;
+                            min-width: 100px;
+                            height: 100%;
+                        }
+                        .productInfo{
+                            .productTitles{
+                                display: flex;
+                                flex-direction: column;
+                                gap: 5px;
+                                h2 {
+                                    font-size: 15px;
+                                }
+                                p{
+                                    font-size: 11px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .innerRight {
+                padding: 10px;
+                min-height: 430px;
+                height: fit-content;
+                .rightTop {
+                    .shoppingTitle{
+                        font-size: 18px;
+                    }
+                    .shoppingTotalTitle{
+                        font-size: 15px;
+                    }
+                    p{
+                        font-size: 13px;
+                    }
+                }
+                .formContainer{
+                    height: fit-content;
+                    .formShopping{
+                        .couponContainer{
+                            display: flex;
+                            flex-direction: column;
+                            gap: 2px;
+                            .couponTitle {
+                                font-size: 14px;
+                            }
+                            .inputContainer{
+                                width: 100%;
+                                input{
+                                    width: 70%;
+                                    font-size: 12px;
+                                    &::placeholder{
+                                        font-size: 12px;
+                                    }
+                                }
+                                button {
+                                    width: 30%;
+                                    font-size: 12px;
+                                }
+                            }
+                        }
+                        .completeContainer{
+                            button{
+                                font-size: 13px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

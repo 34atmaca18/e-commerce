@@ -1,0 +1,154 @@
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
+$darkgrey: rgb(161, 161, 161);
+$grey: rgb(201, 201, 201);
+
+
+.favoriteContainer {
+    width: 100%;
+    height: fit-content;
+    padding: 0 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+    .favoriteTitle {
+        font-size: 22px;
+        background: linear-gradient(to right, #6A6A6A 0%, #E2E2E2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        padding: 5px;
+        border-radius: 5px;
+        font-weight: 900;
+    }
+
+    .sliderContainer {
+        width: 700px;
+        height: fit-content;
+        border-radius: 5px;
+        padding: 5px 10px;
+        display: flex;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+        
+        .slider {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+
+            .slick-slider.slick-list.slick-track {
+                display: flex;
+            }
+
+            .products {
+                border: 2px solid $grey;
+                height: 280px;
+                padding: 10px;
+                border-radius: 3px;
+                position: relative;
+                z-index: 1;
+
+                .imageContainer {
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+
+                    .productsImages {
+                        height: 120px;
+                        width: 100%;
+                        background-color: white;
+                        border-radius: 5px;
+                    }
+                }
+
+                .productTitle {
+                    font-size: 15px;
+                    font-weight: 800;
+                    margin-top: 5px;
+                }
+
+                .productInfo {
+                    font-size: 12px;
+                    width: 100%;
+                }
+
+                .bottomContainer {
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 100%;
+                    padding: 9px 10px;
+                    p{
+                        font-size: 12.5px;
+                    }
+
+                    button {
+                        font-size: 12px;
+                        font-weight: 700;
+                        background-color: $darkgrey;
+                        color: white;
+                        padding: 2px 8px;
+                        border: none;
+                        border-radius: 5px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width: 1000px) {
+    .favoriteContainer {
+        padding: 0 20px;  
+        .sliderContainer {
+            width: 100%;
+        }    
+}
+}
+
+@media screen and (max-width: 580px) {
+    .favoriteContainer {
+        .favoriteTitle {
+            font-size: 18px;
+        }
+    
+        .sliderContainer {     
+            .slider {
+                .products {
+                    .productTitle {
+                        font-size: 15px;
+                        font-weight: 800;
+                        margin-top: 5px;
+                    }
+    
+                    .productInfo {
+                        font-size: 12px;
+                        width: 100%;
+                    }
+    
+                    .bottomContainer {
+                        flex-direction: column;
+                        justify-content: initial;
+                        align-items: initial;
+                        gap: 2px;
+                        p{
+                            font-size: 12.5px;
+                            font-weight: 700;
+                        }
+    
+                        button {
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

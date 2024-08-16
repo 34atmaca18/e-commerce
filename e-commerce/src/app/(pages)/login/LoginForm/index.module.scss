@@ -1,0 +1,201 @@
+$blue: rgb(0, 255, 195);
+$darkgrey: rgb(161, 161, 161);
+$grey: rgb(201, 201, 201);
+
+.loginContainer {
+    width: 100%;
+    height: fit-content;
+    padding: 0 250px;
+
+    .innerContainer {
+        width: 100%;
+        height: 600px;
+        border: 2px solid $darkgrey;
+        display: flex;
+        border-radius: 30px;
+        overflow: hidden;
+
+        .innerLeft {
+            width: 70%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 130px;
+            height: 100%;
+            position: relative;
+
+            .loginForm {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                width: 100%;
+
+                .loginTitle {
+                    width: 100%;
+                    text-align: center;
+                    font-size: 24px;
+                    font-weight: 800;
+                }
+
+                .emailContainer,.passwordContainer {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 3px;
+                    margin-top: 10px;
+
+                    &:focus-within {
+                        label {
+                            color: $grey;
+                        }
+                        input {
+                            border-color: $grey;
+                        }
+                    }
+                    
+                    label {
+                        font-size: 13px;
+                    }
+
+                    input {
+                        height: 45px;
+                        border-radius: 5px;
+                        background-color: black;
+                        border: 1px solid white;
+                        color: white;
+                        font-size: 13px;
+                        padding-left: 10px;
+                    }
+                    }
+                }
+
+                .buttonContainer {
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    margin-top: 10px;
+
+                    .signInButton {
+                        width: fit-content;
+                    }
+                }
+            }
+
+        .innerRight {
+            width: 30%;
+            background-color: $darkgrey;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 20px;
+
+            h2 {
+                font-size: 22px;
+                font-weight: 800;
+                text-align: center;
+            }
+
+            p{
+                text-align: center;
+                font-size: 14px;
+            }
+
+            .signUpButton {
+                margin-top: 10px;
+            }
+        }
+
+        .bottomContainer {
+            position: absolute;
+            left: 20px;
+            bottom: 20px;
+            width: 100%;
+
+            .forgotPassword {
+                font-size: 12px;
+                border-bottom: 1px solid white;
+                color: white;
+            }
+        }
+}
+}
+
+
+
+@media screen and (max-width: 1600px) {
+    .loginContainer { 
+        .innerContainer {
+            .innerLeft {
+                padding: 0 50px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1400px) {
+    .loginContainer {
+        padding: 0 150px;   
+        .innerContainer {
+            .innerLeft {
+                padding: 0 50px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .loginContainer {
+        padding: 0 150px;
+        .innerContainer {
+            flex-direction: column;
+            border-radius: 10px;
+            height: fit-content;
+            .innerLeft {
+                width: 100%;
+                padding: 20px;
+                height: 500px;
+                .loginForm {
+                    .emailContainer,.passwordContainer {
+                        input {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+            .innerRight {
+                width: 100%;
+                height: 500px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .loginContainer {
+        padding: 0 20px;
+        .innerContainer {
+            border: none;
+            padding: 0;
+            .innerLeft {
+                padding: 0;
+                .loginForm {
+                    .loginTitle {
+                        margin-bottom: 10px;
+                        font-size: 17px;
+                    }
+                    .emailContainer,.passwordContainer{
+                        label{
+                            font-size: 12px;
+                        }
+                    }
+                    .buttonContainer {
+                        margin-top: 30px;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,139 @@
+$darkgrey: rgb(161, 161, 161);
+$grey: rgb(201, 201, 201);
+
+.footerContainer {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    padding:100px 50px;
+    justify-content: space-between;
+    position: relative;
+
+    h1 {
+        font-weight: 900;
+        font-size: 23px;
+        color: $darkgrey;
+    }
+
+    .footerContainerLeft {
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        ul {
+            li {
+                font-size: 14px;
+            }
+        }
+    }
+
+    .footerContainerRight {
+        width: fit-content;
+        background-color: black;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            align-items: baseline;
+            gap: 3px;
+
+            li {
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 6px;
+
+                img {
+                    width: 19px;
+                    height: 19px;
+                    position: relative;
+                    top: 1px;
+                }
+            }
+        }
+    }
+    .footerCopyRight {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 50px;
+
+        .copyRightLeft {
+            display: flex;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 800;
+            align-items: center;
+
+            img {
+                width: 12px;
+                height: 12px;
+            }
+        }
+
+        .copyRightRight {
+            ul {
+                display: flex;
+                gap: 5px;
+                li {
+                    img {
+                        width: 22px;
+                        height: 22px;
+                        cursor: pointer;
+
+                        &:hover {
+                            filter: brightness(60%);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width:880px) {
+    .footerContainer {
+        padding: 100px 20px 150px 20px !important;
+        flex-direction: column;
+        gap: 40px;
+
+        h1 {
+            font-size: 18px !important;
+        }
+        
+        ul {
+            li {
+                font-size: 12.5px !important;
+            }
+        }
+
+        .footerContainerRight {
+            img {
+                width: 15px !important;
+                top: -1px !important;
+            }
+        }
+
+        .footerCopyRight{
+            padding: 20px !important;
+            .copyRightLeft{
+                font-size: 11px !important;
+            }
+            .copyRightRight {
+                position: absolute;
+                top: -10px;
+                left: 20px;
+            }
+        }
+    }
+}

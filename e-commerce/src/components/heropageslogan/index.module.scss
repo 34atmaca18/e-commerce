@@ -1,0 +1,47 @@
+$darkgrey: rgb(161, 161, 161);
+$grey: rgb(201, 201, 201);
+
+.sloganContainer {
+    padding: 150px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 3px;
+
+    .sloganTitle {
+        width: fit-content;
+        font-weight: 800;
+        padding: 5px;
+        border-radius: 5px;
+        font-size: 24px;
+        background: #6A6A6A;
+        background: linear-gradient(to right, #6A6A6A 0%, #E2E2E2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .sloganParagraph {
+        width: 550px;
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .sloganContainer {
+        padding: 150px 20px;
+        width: 100%;
+    
+        .sloganTitle {
+            font-size: 17px;
+        }
+    
+        .sloganParagraph {
+            width: 100%;
+            font-size: 12px;
+        }
+    }
+    
+    
+}

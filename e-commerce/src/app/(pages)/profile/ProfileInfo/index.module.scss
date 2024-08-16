@@ -1,0 +1,67 @@
+$darkgrey: rgb(161, 161, 161);
+$grey: rgb(201, 201, 201);
+
+
+.profileContainer {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .userContainer {
+        width: 350px;
+        height: fit-content;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 30px 10px 40px 10px;
+
+        .profileTitleContainer {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            .profileTitle {
+                font-size: 20px;
+                text-align: center;
+                width: fit-content;
+                border-bottom: 2px solid white;
+            }
+        }
+
+        .nameContainer,
+        .emailContainer,
+        .countryContainer {
+            span {
+                padding: 2px 4px;
+                border: 1px solid $grey;
+                font-size: 11px;
+                position: relative;
+                top: 10px;
+                left: 10px;
+                background-color: black;
+                border-radius: 2px;
+            }
+            p {
+                width: 100%;
+                border: 1px solid $grey;
+                font-size: 13px;
+                padding: 0 10px;
+                height: 37px;
+                display: flex;
+                align-items: center;
+                border-radius: 3px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .profileContainer {
+        .userContainer {
+            width: 100%;
+        }
+}
+}

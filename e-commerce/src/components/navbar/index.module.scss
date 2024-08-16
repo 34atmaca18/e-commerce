@@ -1,0 +1,121 @@
+$green: rgb(111, 169, 24);
+
+.navContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 150px;
+    height: 100px;
+
+    .navLeft {
+        color: white;
+        .navTitle {
+            font-size: 22px;
+            font-weight: 800;
+        }
+    }
+
+    .navRight {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+
+        .navProducts {
+            color: white;
+            margin-right: 10px;
+            position: relative;
+            cursor: pointer;
+
+            &:hover {
+                .productsGenres {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+
+            .productsGenres {
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                width: 140px;
+                height: fit-content;
+                padding: 100px 10px;
+                background-color: black;
+                border: 1px solid white;
+                border-radius: 5px;
+                margin-top: 10px;
+                transform: translateX(-2000px);
+                opacity: 0;
+                z-index: 1;
+
+                .productGenre {
+                    color: white;
+                    font-size: 14px;
+                    font-weight: 700;
+                    
+                    &:hover {
+                        filter: brightness(80%);
+                    }
+                }
+            }
+            
+            span {
+                font-size: 15px;
+                &:hover {
+                    filter: brightness(70%);
+                }
+            }
+        }
+        
+        .navUser,.navCart {
+            position: relative;
+            top: 3px;
+
+            &:hover {
+                filter: brightness(70%);
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1600px) {
+    .navContainer {
+        padding: 0 50px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .navContainer {
+        padding: 0 20px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .navContainer {
+        .navLeft {
+            .navTitle {
+                font-size: 18px;
+            }
+        }
+    
+        .navRight {
+            .navProducts {
+                color: white;
+                margin-right: 7px;
+                
+                span {
+                    font-size: 14.5px;
+                }
+
+                .arrowdown {
+                    width: 10px;
+                    height: 10px;
+                }
+            }
+        }
+    }
+    
+}
