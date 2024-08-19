@@ -9,6 +9,7 @@ import FavoriteProducts from '@/components/favoriteproducts/FavoriteProducts'
 import Card from '../(pages)/shoppingcard/ShoppinCard/Card'
 import HeroSlogan from '@/components/heropageslogan/HeroSlogan'
 import Products from '../(pages)/products/Products/Products'
+import AdminCrud from '../(pages)/adminpanel/AdminCrud/AdminCrud'
 
 const footerLinks: FooterSection[] = [
     {
@@ -48,5 +49,6 @@ export {
     FavoriteProducts,
     Card,
     HeroSlogan,
-    Products
+    Products,
+    AdminCrud
 }

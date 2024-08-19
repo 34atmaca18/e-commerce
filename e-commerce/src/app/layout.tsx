@@ -3,6 +3,8 @@ import "./globals.css";
 import { MantineProvider } from '@mantine/core';
 import "@mantine/core/styles.css";
 import { Metadata } from 'next';
+import { AuthProvider } from '@/context/AuthContext';
+
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -25,7 +27,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${montserrat.className}`}>
-        <MantineProvider>{children}</MantineProvider>
+        <MantineProvider>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </MantineProvider>
       </body>
     </html>
   );

@@ -19,3 +19,23 @@ export type User = {
   password: string;
   country: string;
 };
+
+export type Productstype = {
+  id: number;
+  name: string;
+  info: string;
+  price: number;
+  image: string;
+}
+
+export type LoginFormInputs = {
+  email: string;
+  password: string;
+}
+
+export type RegisterFormValues = {
+  name: string;
+  email: string;
+  password: string;
+  country: string;
+}

@@ -43,7 +43,16 @@ $grey: rgb(201, 201, 201);
                     display: flex;
                     flex-direction: column;
                     gap: 3px;
-                    margin-top: 10px;
+                    margin-top: 20px;
+                    position: relative;
+
+                    .errorMessage {
+                        color: red;
+                        font-size: 10px;
+                        position: absolute;
+                        bottom: -17px;
+                        z-index: 1;
+                    }
 
                     &:focus-within {
                         label {
@@ -74,7 +83,7 @@ $grey: rgb(201, 201, 201);
                     width: 100%;
                     display: flex;
                     justify-content: center;
-                    margin-top: 10px;
+                    margin-top: 20px;
 
                     .signInButton {
                         width: fit-content;

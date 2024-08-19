@@ -9,3 +9,15 @@
     gap: 50px;
     padding: 0 0 100px 0;
 }
+
+.redirecting {
+    background-color: black;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: 800;
+    color: white;
+}

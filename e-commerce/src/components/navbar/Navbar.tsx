@@ -1,9 +1,12 @@
+'use client'
 import React from 'react'
 import Link from 'next/link';
 import styles from './index.module.scss'
 import Image from 'next/image';
+import { useAuth } from '@/context/AuthContext';
 
 const Navbar = () => {
+    const {isLoggedIn,isAdmin} = useAuth()
     return (
         <nav className={styles.navContainer}>
             <Link className={styles.navLeft} href={"/"}>
@@ -23,13 +26,24 @@ const Navbar = () => {
                         <Link href={'/products'} className={styles.productGenre}>Homestuffs</Link>
                     </div>
                 </div>
-                <Link className={styles.navUser} href={'/login'}>
-                    <Image 
-                    src={'/icons/user.svg'} 
-                    alt='arrowdown'
-                    width={23}
-                    height={23} />
-                </Link>
+                {
+                    isLoggedIn ? (<Link className={styles.navUser} href={'/profile'}>
+                                    <Image 
+                                    src={'/icons/user.svg'} 
+                                    alt='arrowdown'
+                                    width={23}
+                                    height={23} />
+                                </Link>) :                
+                    (
+                        <Link className={styles.navUser} href={'/login'}>
+                            <Image 
+                            src={'/icons/user.svg'} 
+                            alt='arrowdown'
+                            width={23}
+                            height={23} />
+                        </Link>
+                    )
+                }
                 <Link className={styles.navCart} href={'/shoppingcard'}>
                     <Image 
                     src={'/icons/shopping-cart.svg'} 
@@ -37,6 +51,12 @@ const Navbar = () => {
                     width={23}
                     height={23} />
                 </Link>
+                
+                {
+                    isAdmin && (
+                        <Link className={styles.adminControl} href={'/adminpanel'}>Admin Dashboard</Link>
+                    )
+                }
             </div>
         </nav>
     )

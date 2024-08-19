@@ -18,14 +18,14 @@ $grey: rgb(201, 201, 201);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
-    .electronicContainer {
+    .electronicContainer,.foodContainer {
         border-radius: 5px;
         width: 100%;
         height: fit-content;
         display: flex;
         flex-direction: column;
         gap: 10px;
-        .electronicTitle {
+        .electronicTitle,.foodTitle {
             font-size: 16px;
             font-weight: 600;
             border-bottom: 1px solid $grey;
@@ -34,14 +34,14 @@ $grey: rgb(201, 201, 201);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .electronicProductsContainer {
+        .electronicProductsContainer,.foodProductsContainer {
             display: flex;
             gap: 10px;
             height: fit-content;
             flex-wrap: wrap;
             width: 100%;
 
-            .electronicProducts {
+            .electronicProducts,.foodProducts {
                 border: 2px solid $grey;
                 height: 280px;
                 padding: 10px;

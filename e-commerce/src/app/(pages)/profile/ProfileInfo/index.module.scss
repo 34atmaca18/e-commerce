@@ -31,28 +31,50 @@ $grey: rgb(201, 201, 201);
             }
         }
 
-        .nameContainer,
-        .emailContainer,
-        .countryContainer {
-            span {
-                padding: 2px 4px;
-                border: 1px solid $grey;
-                font-size: 11px;
-                position: relative;
-                top: 10px;
-                left: 10px;
-                background-color: black;
-                border-radius: 2px;
+        .userinfoContainer {
+            .nameContainer,
+            .emailContainer,
+            .countryContainer {
+                span {
+                    padding: 2px 4px;
+                    border: 1px solid $grey;
+                    font-size: 11px;
+                    position: relative;
+                    top: 10px;
+                    left: 10px;
+                    background-color: black;
+                    border-radius: 2px;
+                }
+                p {
+                    width: 100%;
+                    border: 1px solid $grey;
+                    font-size: 13px;
+                    padding: 0 10px;
+                    height: 37px;
+                    display: flex;
+                    align-items: center;
+                    border-radius: 3px;
+                }
             }
-            p {
-                width: 100%;
-                border: 1px solid $grey;
+        }
+        .buttonContainer {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            .logoutButton {
                 font-size: 13px;
-                padding: 0 10px;
-                height: 37px;
-                display: flex;
-                align-items: center;
-                border-radius: 3px;
+                background-color: red;
+                color: white;
+                font-weight: 700;
+                border-radius: 5px;
+                padding: 3px 10px;
+                border: none;
+                cursor: pointer;
+
+                &:hover {
+                    font-size: 11px;
+                }
             }
         }
     }
