@@ -88,7 +88,8 @@ $grey: rgb(201, 201, 201);
                     margin-top: 10px;
 
                     .signInButton {
-                        width: fit-content;
+                        width: 90px;
+                        height: 30px;
                     }
                 }
             }
@@ -116,6 +117,8 @@ $grey: rgb(201, 201, 201);
             }
 
             .signUpButton {
+                width: 110px;
+                height: 30px;
                 margin-top: 10px;
             }
         }

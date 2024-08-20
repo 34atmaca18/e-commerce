@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react';
+import React,{useState} from 'react';
 import { Button } from '@mantine/core';
 import Link from 'next/link';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
@@ -9,8 +9,10 @@ import styles from './index.module.scss';
 import { RegisterFormValues } from '@/lib/types';
 import { registerUser } from '@/lib/db';
 import { useRouter } from 'next/navigation';
+import { Loader } from '@mantine/core';
 
 const RegisterForm: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const router = useRouter()
   const initialValues: RegisterFormValues = {
     name: '',
@@ -31,11 +33,13 @@ const RegisterForm: React.FC = () => {
   });
 
   const onSubmit = async (values: RegisterFormValues) => {
+    setIsLoading(true)
     const {user,error} = await registerUser(values);
     if (error) {
+      setIsLoading(false)
       alert(error);
     } else if (user) {
-      alert('User created successfully!');
+      setIsLoading(false)
       router.push('/login')
     }
   };
@@ -127,7 +131,7 @@ const RegisterForm: React.FC = () => {
 
               <div className={styles.buttonContainer}>
                 <Button className={styles.signInButton} type="submit" variant="filled" color="gray">
-                  Sign Up
+                  {isLoading ? <Loader color='white' size='sm' /> : <span>Sign Up</span>}
                 </Button>
               </div>
             </Form>
