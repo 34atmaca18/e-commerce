@@ -4,7 +4,7 @@ import React,{useEffect,useState} from 'react'
 import styles from './index.module.scss'
 import { fetchElectronicProducts,fetchFoodProducts } from '@/lib/db'
 import { Productstype } from '@/lib/types'
-import AddProduct from '@/components/modals/AddProduct'
+import {AddProduct,DeleteProduct} from '../../../const/const'
 import Image from 'next/image'
 
 
@@ -12,15 +12,27 @@ const AdminCrud = () => {
   const [electronicproducts, setElectronicProducts] = useState<Productstype[]>([]);
   const [foodproducts, setFoodProducts] = useState<Productstype[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [selectedProduct, setSelectedProduct] = useState<Productstype | null>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const productelectronicData = await fetchElectronicProducts();
-        const productfoodData = await fetchFoodProducts();
-        setElectronicProducts(productelectronicData);
-        setFoodProducts(productfoodData)
+        const electronicData = await fetchElectronicProducts();
+        const foodData = await fetchFoodProducts();
+        const electronicProductsWithCategory = electronicData.map(product => ({
+          ...product,
+          category: 'electronicproducts' as const
+        }));
+  
+        const foodProductsWithCategory = foodData.map(product => ({
+          ...product,
+          category: 'foodproducts' as const
+        }));
+  
+        setElectronicProducts(electronicProductsWithCategory);
+        setFoodProducts(foodProductsWithCategory);
       } catch (error) {
         console.error('Error fetching products:', error);
       } finally {
@@ -29,15 +41,21 @@ const AdminCrud = () => {
     };
 
     fetchProducts();
-  }, []);
+  }, [isAddModalOpen,isDeleteModalOpen]);
 
   const handleAddProductClick = () => {
-    setIsModalOpen(true);
+    setIsAddModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false);
+    setIsAddModalOpen(false);
+    setIsDeleteModalOpen(false);
   };
+
+  const handleDeleteProductModal = (product: Productstype) => {
+    setSelectedProduct(product)
+    setIsDeleteModalOpen(true);
+  }
 
   return (
     <>
@@ -58,6 +76,17 @@ const AdminCrud = () => {
         <ul className={styles.electronicProductsContainer}>
         {electronicproducts.map((product) => (
           <li key={product.id} className={styles.electronicProducts}>
+            <div 
+            onClick={() => handleDeleteProductModal(product)}
+            className={styles.deleteButtonContainer}>
+              <Image 
+              src={'/icons/close.svg'}
+              alt='close'
+              className={styles.deleteIcon}
+              width={25}
+              height={25}
+              />
+            </div>
             <div className={styles.imageContainer}>
               <Image 
               className={styles.productsImages} 
@@ -82,6 +111,17 @@ const AdminCrud = () => {
         <ul className={styles.foodProductsContainer}>
         {foodproducts.map((product) => (
           <li key={product.id} className={styles.foodProducts}>
+            <div 
+            onClick={() => handleDeleteProductModal(product)}
+            className={styles.deleteButtonContainer}>
+              <Image 
+              src={'/icons/close.svg'}
+              alt='close'
+              className={styles.deleteIcon}
+              width={25}
+              height={25}
+              />
+            </div>
             <div className={styles.imageContainer}>
               <Image 
               className={styles.productsImages} 
@@ -102,7 +142,8 @@ const AdminCrud = () => {
         </ul>
       </div>
     </div>
-    {isModalOpen && <AddProduct onClose={handleCloseModal} />}
+    {isAddModalOpen && <AddProduct onClose={handleCloseModal} />}
+    {isDeleteModalOpen && selectedProduct && <DeleteProduct product={selectedProduct} onClose={handleCloseModal} />}
     </>
   )
 }

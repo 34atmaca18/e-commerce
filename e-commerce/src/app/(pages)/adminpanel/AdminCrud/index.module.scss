@@ -85,6 +85,29 @@ $grey: rgb(201, 201, 201);
                 border-radius: 3px;
                 position: relative;
                 width: 220px;
+
+                &:hover {
+                    .deleteButtonContainer{
+                        display: flex;
+                    }
+                }
+
+                .deleteButtonContainer {
+                    position: absolute;
+                    right: 5px;
+                    top: 5px;
+                    width: fit-content;
+                    height: fit-content;
+                    border-radius: 50%;
+                    background-color: black;
+                    display: none;
+                    justify-content: center;
+                    align-items: center;
+                    
+                    .deleteIcon {
+                        cursor: pointer;
+                    }
+                }
                 .imageContainer {
                     width: 100%;
                     display: flex;

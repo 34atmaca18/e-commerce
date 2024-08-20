@@ -10,7 +10,8 @@ import Card from '../(pages)/shoppingcard/ShoppinCard/Card'
 import HeroSlogan from '@/components/heropageslogan/HeroSlogan'
 import Products from '../(pages)/products/Products/Products'
 import AdminCrud from '../(pages)/adminpanel/AdminCrud/AdminCrud'
-import AddProduct from '@/components/modals/AddProduct'
+import AddProduct from '@/components/modals/AddProduct/AddProduct'
+import DeleteProduct from '@/components/modals/DeleteProduct/DeleteProduct'
 
 const footerLinks: FooterSection[] = [
     {
@@ -52,5 +53,6 @@ export {
     HeroSlogan,
     Products,
     AdminCrud,
-    AddProduct
+    AddProduct,
+    DeleteProduct
 }
