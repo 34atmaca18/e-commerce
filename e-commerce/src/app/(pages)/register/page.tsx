@@ -14,7 +14,7 @@ const RegisterPage = () => {
     return (<div className={styles.redirecting}>Redirecting...</div>)
   }
   
-  else (
+  else return (
     <div className={styles.registerContainer}>
         <Navbar />
         <RegisterForm />
