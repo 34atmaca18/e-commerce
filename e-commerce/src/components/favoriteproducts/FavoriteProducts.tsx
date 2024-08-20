@@ -71,7 +71,7 @@ const FavoriteProducts: React.FC = () => {
               <h2 className={styles.productTitle}>{product.name}</h2>
               <p className={styles.productInfo}>{product.info}</p>
               <div className={styles.bottomContainer}>
-                <p>{product.price}</p>
+                <p>{product.price}$</p>
                 <button>Add to Card</button>
               </div>
             </li>

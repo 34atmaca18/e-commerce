@@ -2,11 +2,11 @@
 import { sql } from '@vercel/postgres';
 import {User,Productstype} from './types'
 import bcrypt from 'bcrypt';
+import { productValues } from '@/components/modals/AddProduct';
 
 export async function fetchElectronicProducts(): Promise<Productstype[]> {
   try {
     const data = await sql<Productstype>`SELECT * FROM electronicproducts`;
-    console.log(data.rows)
     return data.rows;
   } catch (error) {
     console.error('Database Error:', error);
@@ -17,13 +17,28 @@ export async function fetchElectronicProducts(): Promise<Productstype[]> {
 export async function fetchFoodProducts(): Promise<Productstype[]> {
   try {
     const data = await sql<Productstype>`SELECT * FROM foodproducts`;
-    console.log(data.rows)
     return data.rows;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch products');
   }
 }
+
+export const addProductToDb = async (product: productValues): Promise<void> => {
+  const table = product.category === ('electronic' ? 'electronicproducts' : 'foodproducts');
+  console.log('Selected table:', table);
+
+  try {
+    await sql<productValues>`
+      INSERT INTO ${table}(name, info, price, image)
+      VALUES (${product.name}, ${product.info}, ${product.price}, ${product.image})
+    `;
+    console.log('Product added successfully');
+  } catch (error) {
+    console.error('Failed to add product:', error);
+    throw new Error('Failed to add product');
+  }
+};
 
 export async function registerUser(data: { name: string, email: string, password: string, country: string }): Promise<{ user: User | null, error?: string }> {
   try {

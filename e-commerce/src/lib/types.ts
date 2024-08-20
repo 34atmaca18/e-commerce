@@ -21,11 +21,12 @@ export type User = {
 };
 
 export type Productstype = {
-  id: number;
+  id?: number;
   name: string;
   info: string;
   price: number;
   image: string;
+  category: string;
 }
 
 export type LoginFormInputs = {
