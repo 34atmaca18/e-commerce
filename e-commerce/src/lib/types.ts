@@ -21,12 +21,24 @@ export type User = {
 };
 
 export type Productstype = {
+  user_id?:number;
   id?: number;
   name: string;
   info: string;
   price: number;
   image: string;
   category: string;
+}
+
+export type cardProducts = {
+  id?: number;
+  user_id: number;
+  name:string;
+  info:string;
+  price:number;
+  image:string;
+  quantity:number;
+  category:string;
 }
 
 export type LoginFormInputs = {

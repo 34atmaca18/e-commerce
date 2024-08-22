@@ -1,0 +1,91 @@
+@keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+.loaderContainer {
+    display: flex;
+    gap: 10px;
+    height: fit-content;
+    flex-wrap: wrap;
+    width: 100%;
+
+    .loaderInner {
+        border: 2px solid gray;
+        height: 280px;
+        padding: 10px;
+        border-radius: 3px;
+        position: relative;
+        width: 220px;
+        overflow: hidden;
+
+        &::before {
+            content: '';
+            position: absolute;
+            inset: 0; 
+            transform: translateX(-100%);
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.6), transparent);
+            animation: shimmer 2s infinite;
+          }
+
+        .imageContainer {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+
+            .imageLoader {
+                height: 120px;
+                width: 100%;
+                background-color: gray;
+                border-radius: 5px;
+            }
+        }
+
+        .titleLoader {
+            margin-top: 5px;
+            width: 80%;
+            height: 17px;
+            background-color: gray;
+            border-radius: 2px;
+        }
+
+        .infoLoaders {
+            width: 100%;
+            .infoLoader1,.infoLoader2 {
+                width: 60%;
+                height: 11px;
+                background-color: gray;
+                border-radius: 2px;
+                margin-top: 5px;
+            }
+            .infoLoader2 {
+                width: 40%;
+            }
+        }
+
+        .bottomLoaders {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 9px 10px;
+            .priceLoader{
+                background-color: gray;
+                width: 40px;
+                height: 13px;
+                border-radius: 2px;
+            }
+
+            .buttonLoader {
+                background-color: gray;
+                border-radius: 2px;
+                width: 60px;
+                height: 27px;
+            }
+        }
+    }
+}

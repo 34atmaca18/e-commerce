@@ -48,6 +48,24 @@ $grey: rgb(201, 201, 201);
                 border-radius: 3px;
                 position: relative;
                 width: 220px;
+
+                .likeButton {
+                    position: absolute;
+                    right: 10px;
+                    top: 10px;
+                    background-color: black;
+                    border-radius: 5px;
+                    padding: 3px 8px;
+                    color: white;
+                    font-size: 10px;
+                    border: 1px solid black;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: white;
+                        color: black;
+                    }
+                }
                 .imageContainer {
                     width: 100%;
                     display: flex;
