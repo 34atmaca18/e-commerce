@@ -22,22 +22,23 @@ export type User = {
 
 export type Productstype = {
   user_id?:number;
-  id?: number;
+  id: number;
   name: string;
   info: string;
   price: number;
   image: string;
   category: string;
+  quantity?: number;
 }
 
 export type cardProducts = {
-  id?: number;
-  user_id: number;
+  id: number;
+  user_id?: number;
   name:string;
   info:string;
   price:number;
   image:string;
-  quantity:number;
+  quantity?:number;
   category:string;
 }
 

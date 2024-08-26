@@ -12,12 +12,13 @@ $grey: rgb(201, 201, 201);
 
     .userContainer {
         width: 350px;
-        height: fit-content;
+        height: 320px;
         border-radius: 10px;
         display: flex;
         flex-direction: column;
         gap: 10px;
-        padding: 30px 10px 40px 10px;
+        padding: 30px 10px 60px 10px;
+        position: relative;
 
         .profileTitleContainer {
             display: flex;
@@ -62,6 +63,9 @@ $grey: rgb(201, 201, 201);
             display: flex;
             justify-content: center;
             margin-top: 10px;
+            position: absolute;
+            bottom: 10px;
+            left: 0;
             .logoutButton {
                 font-size: 13px;
                 background-color: red;
@@ -73,7 +77,7 @@ $grey: rgb(201, 201, 201);
                 cursor: pointer;
 
                 &:hover {
-                    font-size: 11px;
+                    filter: brightness(70%);
                 }
             }
         }

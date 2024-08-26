@@ -4,6 +4,7 @@ import { MantineProvider } from '@mantine/core';
 import "@mantine/core/styles.css";
 import { Metadata } from 'next';
 import { AuthProvider } from '@/context/AuthContext';
+import { ProductProvider } from '@/context/ProductContext';
 
 
 const montserrat = Montserrat({
@@ -29,7 +30,9 @@ export default function RootLayout({
       <body className={`${montserrat.className}`}>
         <MantineProvider>
           <AuthProvider>
-            {children}
+            <ProductProvider>
+              {children}
+            </ProductProvider>
           </AuthProvider>
         </MantineProvider>
       </body>

@@ -3,54 +3,77 @@ import React,{useEffect,useState} from 'react'
 import styles from './index.module.scss'
 import Image from 'next/image'
 import { useAuth } from '@/context/AuthContext'
+import { useProduct } from '@/context/ProductContext'
 import { User,cardProducts } from '@/lib/types'
-import { fetchCardProducts,decreaseProductQuantity,increaseProductQuantity,deleteProductsFromCard,deleteSelectedProductsFromCard } from '@/lib/db'
+import { CardLoader } from '@/components/skeletons/Skeletons'
+import { fetchCardProducts,decreaseProductQuantity,increaseProductQuantity,
+    deleteProductsFromCard,deleteSelectedProductsFromCard } from '@/lib/db'
 
 const Card = () => {
     const [shoppingCardProducts, setCardProducts] = useState<cardProducts[]>([])
     const [totalPrice, setTotalPrice] = useState<number>(0)
     const {currentUser} = useAuth()
+    const {localCartItems,clearLocalCart,
+        increaseLocalProductQuantity,
+        decreaseLocalProductQuantity,removeProductFromLocalCart} = useProduct()
     const [coupon, setCoupon] = useState<string>('');
     const [discount, setDiscount] = useState<number>(0);
     const [couponUsed, setCouponUsed] = useState(false);
+    const [fetchLoading, setfetchLoading] = useState<boolean>(true)
 
     const handleApplyCoupon = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (shoppingCardProducts.length === 0) {
-            alert('Add products to cart first!');
-            return;
-          }
-          
-        if (couponUsed) {
-          alert('You already used discount code!');
-          return;
+        if(!currentUser) {
+            alert('Please login to use coupon!')
         }
-    
-        if (coupon === 'DX20') {
-          setDiscount(0.20);
-          setCouponUsed(true); 
-          alert('Discount applied!');
-        } else {
-          setDiscount(0); 
-          alert('Invalid coupon code');
+        else {
+            if (shoppingCardProducts.length === 0) {
+                alert('Add products to cart first!');
+                return;
+              }
+              
+            if (couponUsed) {
+              alert('You already used discount code!');
+              return;
+            }
+        
+            if (coupon === 'DX20') {
+              setDiscount(0.20);
+              setCouponUsed(true); 
+              alert('Discount applied!');
+            } else {
+              setDiscount(0); 
+              alert('Invalid coupon code');
+            }
         }
       };
 
-    const fetchProductstoCard = async (user: User) => {
+      const fetchProductstoCard = async (user?: User) => {
         try {
-          const fetchedCardProducts = await fetchCardProducts(user);
-          setCardProducts(fetchedCardProducts);
+          setfetchLoading(true);  
+          if(user){
+            const fetchedCardProducts = await fetchCardProducts(user);
+            setCardProducts(fetchedCardProducts);
+            setfetchLoading(false)
+          }
+          else {
+            setCardProducts(localCartItems)
+            setfetchLoading(false)
+          }
         } catch (error) {
           console.error('Failed to fetch card products:', error);
-        }
+        } 
       };
 
     useEffect(() => {
         if (currentUser) {
           fetchProductstoCard(currentUser);
         }
-      }, [currentUser]);
+        else {
+            fetchProductstoCard();
+        }
+      }, [currentUser,localCartItems]);
     
       const fetchTotalPricetoCard = () => {
         const total = shoppingCardProducts.reduce((acc, product) => {
@@ -65,37 +88,59 @@ const Card = () => {
         fetchTotalPricetoCard();
       }, [shoppingCardProducts, discount]); 
 
-      const handleDecreaseQuantity = async(user:User,product:cardProducts) => {
+      const handleDecreaseQuantity = async(product:cardProducts,user?:User) => {
         try {
-            await decreaseProductQuantity(user,product)
-            await fetchProductstoCard(user);
+            if(user) {
+                await decreaseProductQuantity(user,product)
+                await fetchProductstoCard(user);
+            }
+            else {
+                decreaseLocalProductQuantity(product.id)
+                await fetchProductstoCard();
+            }
         } catch (error) {
             console.error('Error while decreasing..',error)
         }
       }
         
-      const handleIncreaseQuantity = async(user:User,product:cardProducts) => {
+      const handleIncreaseQuantity = async(product:cardProducts,user?:User) => {
         try {
-            await increaseProductQuantity(user,product)
-            await fetchProductstoCard(user);
+            if(user) {
+                await increaseProductQuantity(user,product)
+                await fetchProductstoCard(user);
+            }
+            else {
+                increaseLocalProductQuantity(product.id)
+                await fetchProductstoCard()
+            }
         } catch (error) {
             console.error('Error while increasing..',error)
         }
       }
 
-      const handleDeleteAllProducts = async(user:User) => {
+      const handleDeleteAllProducts = async(user?:User) => {
         try {
-            await deleteProductsFromCard(user);
+            if(user) {
+                await deleteProductsFromCard(user);
+            }
+            else {
+                clearLocalCart();
+            }
             await fetchProductstoCard(user);
         } catch (error) {
             console.error('error while deleting products',error)
         }
       }
 
-      const handleDeleteSelectedProducts = async(user:User,product:cardProducts) => {
+      const handleDeleteSelectedProducts = async(product:cardProducts,user?:User) => {
         try {
-            await deleteSelectedProductsFromCard(user,product)
-            await fetchProductstoCard(user);
+            if(user){
+                await deleteSelectedProductsFromCard(user,product)
+                await fetchProductstoCard(user);
+            }else {
+                removeProductFromLocalCart(product.id);
+                await fetchProductstoCard();
+            }
         } catch (error) {
             console.error('error while deleting products',error)
         }
@@ -111,7 +156,7 @@ const Card = () => {
                             handleDeleteAllProducts(currentUser)
                         }
                         else{
-                            console.log('error while deleting products..')
+                            handleDeleteAllProducts();
                         }
                     }}
                     className={styles.emptyCardContainer}>
@@ -122,9 +167,10 @@ const Card = () => {
                         width={18}
                         height={18}/>
                     </div>
-                    <ul className={styles.productsList}>
-                        {shoppingCardProducts.map((product,index) => 
-                        (
+                    {fetchLoading ? <CardLoader /> : shoppingCardProducts.length === 0 ? <div className={styles.emptyCart}>Your Cart is Empty..</div> :
+                        <ul className={styles.productsList}>
+                            {shoppingCardProducts.map((product, index) =>
+                            (
                             <li 
                             key={index}
                             className={styles.products}>
@@ -133,10 +179,10 @@ const Card = () => {
                                     onClick={
                                         () => {
                                             if(currentUser){
-                                                handleDeleteSelectedProducts(currentUser,product);
+                                                handleDeleteSelectedProducts(product,currentUser);
                                             }
                                             else{
-                                                console.log('error..')
+                                                handleDeleteSelectedProducts(product);
                                             }
                                         }
                                     }
@@ -164,10 +210,10 @@ const Card = () => {
                                         <Image 
                                         onClick={() => {
                                             if(currentUser){
-                                                handleDecreaseQuantity(currentUser,product)
+                                                handleDecreaseQuantity(product,currentUser)
                                             }
                                             else{
-                                                console.log('no current user found')
+                                                handleDecreaseQuantity(product)
                                             }
                                         }}
                                         className={styles.counterImages}
@@ -179,10 +225,10 @@ const Card = () => {
                                         <Image 
                                         onClick={() => {
                                             if(currentUser){
-                                                handleIncreaseQuantity(currentUser,product)
+                                                handleIncreaseQuantity(product,currentUser)
                                             }
                                             else{
-                                                console.log('no current user found')
+                                                handleIncreaseQuantity(product)
                                             }
                                         }}
                                         className={styles.counterImages}
@@ -194,7 +240,8 @@ const Card = () => {
                                 </div>
                             </li>
                         ))}
-                    </ul>
+                            </ul>
+                        }
                 </div>
                 <div className={styles.innerRight}>
                     <div className={styles.rightTop}>

@@ -7,27 +7,33 @@ import styles from './index.module.scss';
 import '../../app/globals.css'
 import Image from 'next/image'
 import { Productstype } from '@/lib/types'
-import { fetchElectronicProducts } from '@/lib/db'
+import { useAuth } from '@/context/AuthContext';
+import { useProduct } from '@/context/ProductContext';
+import { Loader } from '@mantine/core';
+import Link from 'next/link';
 
 const FavoriteProducts: React.FC = () => {
-  const [products, setProducts] = useState<Productstype[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [products, setProducts] = useState<Productstype[]>([])
+  const {currentUser,isLoggedIn} = useAuth()
+  const {likedList,handleAddToCartWithState,handleRemoveLike,handleAddLike,
+    productStates,electronicproducts,fetchUpdate} = useProduct()
+
+
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const productData = await fetchElectronicProducts();
-        setProducts(productData.slice(0,4));
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      } finally {
+    if (currentUser) {
+      fetchUpdate(currentUser)
+    }    
+  }, [currentUser])
+
+  useEffect(() => {
+      if (electronicproducts.length > 0) {
+        setProducts(electronicproducts.slice(0, 4));
         setLoading(false);
       }
-    };
-
-    fetchProducts();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
+    }, [electronicproducts]);
+  
+    if (loading) return <div>Loading...</div>;
   const settings = {
     dots: true,
     infinite: true,
@@ -56,11 +62,32 @@ const FavoriteProducts: React.FC = () => {
       <h2 className={styles.favoriteTitle}>Favorite Products</h2>
       <ul className={styles.sliderContainer}>
         <Slider className={styles.slider} {...settings}>
-          {products.map((product,index) => (
+          {products.map((product,index) => {
+            const isLiked = likedList.some(item => item.name === product.name);
+            const productState = productStates[product.id] || { loading: false, added: false };
+            
+            return (
             <li 
             key={index}
             className={styles.products}>
+              {isLoggedIn && (
+                  <button 
+                    onClick={() => {
+                      if (currentUser) {
+                        if (isLiked) {
+                          handleRemoveLike(currentUser, product); 
+                        } else {
+                          handleAddLike(currentUser, product);
+                        }
+                      }
+                    }}
+                    className={styles.likeButton}
+                  >
+                    {isLiked ? 'Remove Like' : 'Add Like'}
+                  </button>
+                )}
               <div className={styles.imageContainer}>
+                <Link className={styles.imageLink} href={`/products/electronic/${product.id}`}></Link>
                 <Image 
                 className={styles.productsImages}
                 alt={product.name}
@@ -68,14 +95,28 @@ const FavoriteProducts: React.FC = () => {
                 height={200}
                 src={product.image}/>
               </div>
-              <h2 className={styles.productTitle}>{product.name}</h2>
+              <Link className={styles.titleLink} href={`/products/electronic/${product.id}`}>
+                 <h2 className={styles.productTitle}>{product.name}</h2>
+              </Link>
               <p className={styles.productInfo}>{product.info}</p>
               <div className={styles.bottomContainer}>
-                <p>{product.price}$</p>
-                <button>Add to Card</button>
+                <p>{product.price.toFixed(2)}$</p>
+                <button
+                  className={`${productState.loading || productState.added ? styles.disabledButton : styles.pointerButton}`}
+                  disabled={productState.loading || productState.added}
+                  onClick={() => {
+                    if (currentUser) {
+                      handleAddToCartWithState(product.id, product,currentUser);
+                    } else {
+                      alert('Please log in first!')
+                    }
+                  }}
+                >
+                  {productState.loading ? <Loader size='sm' color='white' /> : productState.added ? 'Added to Cart' : 'Add to Cart'}
+                </button>
               </div>
             </li>
-          ))}
+          )})}
         </Slider>
       </ul>
     </div>

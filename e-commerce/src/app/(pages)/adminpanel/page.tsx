@@ -8,14 +8,15 @@ import { useRouter } from 'next/navigation'
 const AdminPanel = () => {
   const router = useRouter()
   const {isAdmin} = useAuth()
+  
   useEffect(() => {
-    if (!isAdmin) {
-      router.push('/');
+    if(!isAdmin){
+      router.push('/')
     }
-  }, [isAdmin, router]);
+  }, [isAdmin]);
 
   if (!isAdmin) {
-    return <div>Redirecting...</div>;
+    return <div>Loading...</div>;
   }
 
   return (

@@ -2,6 +2,7 @@
 import React,{createContext,useContext,useState,useEffect} from 'react'
 import {User} from '../lib/types'
 import { useRouter } from 'next/navigation'
+import { addLocalCartItemsToDb } from '../lib/db';
 
 interface AuthContextType {
     currentUser: User | null;
@@ -31,16 +32,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, []);
   
   
-    const login = (user: User) => {
-      const adminStatus = user.email === 'aslan321@gmail.com';
-      setIsAdmin(adminStatus);
-      setCurrentUser(user);
-      setIsLoggedIn(true);
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      localStorage.setItem('isAdmin', JSON.stringify(adminStatus));
-      localStorage.setItem('isLoggedIn', 'true');
-      router.push('/'); 
+    const login = async (user: User) => {
+      try {
+        const adminStatus = user.email === 'aslan321@gmail.com';
+        setIsAdmin(adminStatus);
+        setCurrentUser(user);
+        setIsLoggedIn(true);
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        localStorage.setItem('isAdmin', JSON.stringify(adminStatus));
+        localStorage.setItem('isLoggedIn', 'true');
+    
+        const localCartItems = JSON.parse(localStorage.getItem('localCart') || '[]');
+
+        if (localCartItems.length > 0) {
+          await addLocalCartItemsToDb(user, localCartItems);
+          localStorage.removeItem('localCart');
+        }
+        router.push('/'); 
+      } catch (error) {
+        console.error('Login error:', error);
+      }
     };
+    
   
     const logout = () => {
       setCurrentUser(null);

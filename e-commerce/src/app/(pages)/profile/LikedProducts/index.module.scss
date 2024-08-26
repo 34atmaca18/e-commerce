@@ -1,0 +1,167 @@
+$darkgrey: rgb(161, 161, 161);
+$grey: rgb(201, 201, 201);
+
+
+.wrapper {
+    padding: 0 150px;
+}
+
+.likedListContainer {
+    border-radius: 5px;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .likedTitle {
+        font-size: 16px;
+        font-weight: 600;
+        border-bottom: 1px solid $grey;
+        width: fit-content;
+        background: linear-gradient(to right, #6A6A6A 0%, #E2E2E2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .likedProductsContainer {
+        display: flex;
+        gap: 10px;
+        height: fit-content;
+        flex-wrap: wrap;
+        width: 100%;
+
+        .likedProducts {
+            border: 2px solid $grey;
+            height: 280px;
+            padding: 10px;
+            border-radius: 3px;
+            position: relative;
+            width: 220px;
+
+            .likeButton {
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                background-color: black;
+                border-radius: 5px;
+                padding: 3px 8px;
+                color: white;
+                font-size: 10px;
+                border: 1px solid black;
+                cursor: pointer;
+                z-index: 1;
+
+                &:hover {
+                    background-color: white;
+                    color: black;
+                }
+            }
+            .imageContainer {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                &:hover {
+                    filter: brightness(70%);
+                }
+
+                .imageLink {
+                    position: absolute;
+                    width: 100%;
+                    height: 120px;
+                }
+
+                .productsImages {
+                    height: 120px;
+                    width: 100%;
+                    background-color: white;
+                    border-radius: 5px;
+                }
+            }
+
+            .titleLink {
+                color: white;
+
+                &:hover {
+                    filter: brightness(80%);
+                }
+            }
+
+            .productTitle {
+                font-size: 15px;
+                font-weight: 800;
+                margin-top: 5px;
+            }
+
+            .productInfo {
+                font-size: 12px;
+                width: 100%;
+            }
+
+            .bottomContainer {
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                padding: 9px 10px;
+                p{
+                    font-size: 12.5px;
+                }
+
+                .disabledButton{
+                    cursor: auto;
+                    background-color: black;
+                    color: white;
+                    border: none;
+                }
+
+                button {
+                    font-size: 11px;
+                    font-weight: 700;
+                    background-color: white;
+                    border: 2px solid white;
+                    color: black;
+                    width: 90px;
+                    height: 23px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    position: relative;
+                    z-index: 0;
+                    overflow: hidden;
+
+                    &:hover {
+                        color: white;
+                        &::before {
+                            width: 100%;
+                            transition: all ease-in-out 0.4s;
+                        }
+                    }
+        
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        width: 0;
+                        height: 100%;
+                        z-index: -1;
+                        background-color: black;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1600px) {
+    .wrapper {
+        padding: 0 50px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .wrapper {
+        padding: 0 20px;
+    }
+}

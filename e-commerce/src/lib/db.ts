@@ -30,6 +30,26 @@ export const fetchCardProducts = async (user: User): Promise<cardProducts[]> => 
   }
 };
 
+export const addLocalCartItemsToDb = async (user: User, localCartItems: cardProducts[]): Promise<void> => {
+  try {
+    for (const item of localCartItems) {
+      const query = `
+        INSERT INTO card_items (user_id, name, info, price, image, quantity, category)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        ON CONFLICT (user_id, name, info, price, image)
+        DO UPDATE SET quantity = card_items.quantity + EXCLUDED.quantity;
+      `;
+      await sql.query(query, [user.id, item.name, item.info, item.price, item.image, item.quantity, item.category]);
+    }
+    console.log('All local cart items added to database successfully');
+  } catch (error:any) {
+    console.error('Failed to add local cart items to database:', error.message);
+    throw new Error('Failed to add local cart items to database');
+  }
+};
+
+
+
 export const addProductToCart = async (user: User, product: Productstype): Promise<void> => {
   try {
     const query = `
@@ -204,7 +224,6 @@ export const fetchLikedListFromDb = async (user: User): Promise<Productstype[]> 
       WHERE user_id = $1;
     `;
     const result = await sql.query(query, [user.id]);
-    console.log(result.rows)
     return result.rows;
     
   } catch (error: any) {

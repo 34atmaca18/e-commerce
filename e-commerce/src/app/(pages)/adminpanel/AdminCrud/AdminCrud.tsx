@@ -99,8 +99,7 @@ const AdminCrud = () => {
             <h2 className={styles.productTitle}>{product.name}</h2>
             <p className={styles.productInfo}>{product.info}</p>
             <div className={styles.bottomContainer}>
-              <p>{product.price}$</p>
-              <button>Update</button>
+              <p>{product.price.toFixed(2)}$</p>
             </div>
           </li>
         ))}
@@ -135,7 +134,6 @@ const AdminCrud = () => {
             <p className={styles.productInfo}>{product.info}</p>
             <div className={styles.bottomContainer}>
               <p>{product.price}$</p>
-              <button>Update</button>
             </div>
           </li>
         ))}

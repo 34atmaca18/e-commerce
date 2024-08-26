@@ -12,7 +12,9 @@ import Products from '../(pages)/products/Products/Products'
 import AdminCrud from '../(pages)/adminpanel/AdminCrud/AdminCrud'
 import AddProduct from '@/components/modals/AddProduct/AddProduct'
 import DeleteProduct from '@/components/modals/DeleteProduct/DeleteProduct'
-import ElectronicProductLoader from '@/components/skeletons/electronicProductsSkeleton/ElectronicProductLoader'
+import { ProductLoader,UserInfoLoader,CardLoader } from '@/components/skeletons/Skeletons'
+import LikedProducts from '../(pages)/profile/LikedProducts/LikedProducts'
+
 
 const footerLinks: FooterSection[] = [
     {
@@ -56,5 +58,8 @@ export {
     AdminCrud,
     AddProduct,
     DeleteProduct,
-    ElectronicProductLoader
+    LikedProducts,
+    ProductLoader,
+    UserInfoLoader,
+    CardLoader
 }

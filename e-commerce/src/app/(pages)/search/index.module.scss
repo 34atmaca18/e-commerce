@@ -1,52 +1,41 @@
-@import "~slick-carousel/slick/slick.css";
-@import "~slick-carousel/slick/slick-theme.css";
 $darkgrey: rgb(161, 161, 161);
 $grey: rgb(201, 201, 201);
 
-
-.favoriteContainer {
+.searchContainer {
+    background-color: black;
     width: 100%;
+    min-height: 100vh; 
     height: fit-content;
-    padding: 0 150px;
+    color: white;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 50px;
+    padding: 0 0 100px 0;
 
+    .productsContainer {
+        padding: 0 150px;
 
-    .favoriteTitle {
-        font-size: 22px;
-        background: linear-gradient(to right, #6A6A6A 0%, #E2E2E2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        padding: 5px;
-        border-radius: 5px;
-        font-weight: 900;
-    }
-
-    .sliderContainer {
-        width: 800px;
-        height: fit-content;
-        border-radius: 5px;
-        padding: 5px 10px;
-        display: flex;
-        align-items: center;
-        position: relative;
-        z-index: 0;
-        
-        .slider {
+        .searchTitle {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+    
+        .productsInnerContainer {
+            display: flex;
+            gap: 10px;
+            height: fit-content;
+            flex-wrap: wrap;
             width: 100%;
-            height: 100%;
-            position: relative;
-            z-index: 0;
-
-            .products {
+    
+            .allProducts {
                 border: 2px solid $grey;
                 height: 280px;
                 padding: 10px;
                 border-radius: 3px;
                 position: relative;
-                z-index: 3;
-
+                width: 220px;
+                
+    
                 .likeButton {
                     position: absolute;
                     right: 10px;
@@ -59,17 +48,18 @@ $grey: rgb(201, 201, 201);
                     border: 1px solid black;
                     cursor: pointer;
                     z-index: 1;
-
+    
                     &:hover {
                         background-color: white;
                         color: black;
                     }
                 }
-
                 .imageContainer {
                     width: 100%;
                     display: flex;
                     justify-content: center;
+                    position: relative;
+                    height: 120px;
                     &:hover {
                         filter: brightness(70%);
                     }
@@ -79,7 +69,7 @@ $grey: rgb(201, 201, 201);
                         width: 100%;
                         height: 120px;
                     }
-
+    
                     .productsImages {
                         height: 120px;
                         width: 100%;
@@ -87,29 +77,26 @@ $grey: rgb(201, 201, 201);
                         border-radius: 5px;
                     }
                 }
-
                 .titleLink {
                     color: white;
-                    width: fit-content;
-                    height: fit-content;
     
                     &:hover {
                         filter: brightness(80%);
                     }
                 }
-
                 .productTitle {
                     font-size: 15px;
                     font-weight: 800;
                     margin-top: 5px;
                     color: white;
                 }
-
+    
                 .productInfo {
                     font-size: 12px;
                     width: 100%;
+                    color: white;
                 }
-
+    
                 .bottomContainer {
                     position: absolute;
                     left: 0;
@@ -122,14 +109,14 @@ $grey: rgb(201, 201, 201);
                     p{
                         font-size: 12.5px;
                     }
-
+    
                     .disabledButton{
                         cursor: auto;
                         background-color: black;
                         color: white;
                         border: none;
                     }
-
+    
                     button {
                         font-size: 11px;
                         font-weight: 700;
@@ -143,7 +130,7 @@ $grey: rgb(201, 201, 201);
                         position: relative;
                         z-index: 0;
                         overflow: hidden;
-
+    
                         &:hover {
                             color: white;
                             &::before {
@@ -169,52 +156,14 @@ $grey: rgb(201, 201, 201);
     }
 }
 
+@media screen and (max-width: 1600px) {
+    .productsContainer {
+        padding: 0 50px !important;
+    }
+}
 
 @media screen and (max-width: 1000px) {
-    .favoriteContainer {
-        padding: 0 20px;  
-        .sliderContainer {
-            width: 90%;
-        }    
-}
-}
-
-@media screen and (max-width: 580px) {
-    .favoriteContainer {
-        .favoriteTitle {
-            font-size: 18px;
-        }
-    
-        .sliderContainer {     
-            .slider {
-                .products {
-                    .productTitle {
-                        font-size: 15px;
-                        font-weight: 800;
-                        margin-top: 5px;
-                    }
-    
-                    .productInfo {
-                        font-size: 12px;
-                        width: 100%;
-                    }
-    
-                    .bottomContainer {
-                        flex-direction: column;
-                        justify-content: initial;
-                        align-items: initial;
-                        gap: 2px;
-                        p{
-                            font-size: 12.5px;
-                            font-weight: 700;
-                        }
-    
-                        button {
-                            font-size: 12px;
-                        }
-                    }
-                }
-            }
-        }
+    .productsContainer {
+        padding: 0 20px !important;
     }
 }
