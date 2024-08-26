@@ -20,7 +20,7 @@ const LikedProducts = () => {
         setfetchLoading(false);
       });
     }
-  }, [currentUser])
+  }, [currentUser,fetchUpdate])
 
   return (
       <div className={styles.wrapper}>

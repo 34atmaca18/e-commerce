@@ -1,5 +1,5 @@
 'use client'
-import React,{createContext,useContext,useState,useEffect} from 'react'
+import React,{createContext,useContext,useState,useEffect,useCallback} from 'react'
 import { cardProducts, Productstype,User } from '@/lib/types';
 import { fetchElectronicProducts,fetchFoodProducts,addProductToCart,addLiketoDb,fetchLikedListFromDb,removeLikefromDb } from '@/lib/db'
 
@@ -79,10 +79,10 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }
   };
 
-  const updateLocalCartItems = () => {
-      const localCart = JSON.parse(localStorage.getItem('localCart') || '[]');
-      setLocalCartItems(localCart);
-  };
+  const updateLocalCartItems = useCallback(() => {
+    const localCart = JSON.parse(localStorage.getItem('localCart') || '[]');
+    setLocalCartItems(localCart);
+  }, []);
 
   const handleAddToCartWithState = async (productId: number, product: Productstype,user:User) => {
     setProductStates(prevState => ({
@@ -141,34 +141,38 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
 }
 
       
-  const fetchUpdate = async (user:User) => {
-    fetchProducts();
-          if(user){
-              setUpdatedCurrentUser(user);
-              fetchLikedList(user);
-          }
+const fetchUpdate = useCallback(async (user: User) => {
+  try {
+      await fetchProducts();
+      if (user) {
+          setUpdatedCurrentUser(user); 
+          await fetchLikedList(user); 
       }
+  } catch (error) {
+      console.error('Error in fetchUpdate:', error);
+  }
+}, []); 
 
-  const fetchProducts = async () => {
-    try {
-      const electronicData = await fetchElectronicProducts();
-      const foodData = await fetchFoodProducts();
-      const electronicProductsWithCategory = electronicData.map(product => ({
-        ...product,
-        category: 'electronicproducts' as const
-      }));
+const fetchProducts = useCallback(async () => {
+  try {
+    const electronicData = await fetchElectronicProducts();
+    const foodData = await fetchFoodProducts();
+    const electronicProductsWithCategory = electronicData.map(product => ({
+      ...product,
+      category: 'electronicproducts' as const
+    }));
 
-      const foodProductsWithCategory = foodData.map(product => ({
-        ...product,
-        category: 'foodproducts' as const
-      }));
+    const foodProductsWithCategory = foodData.map(product => ({
+      ...product,
+      category: 'foodproducts' as const
+    }));
 
-      setElectronicProducts(electronicProductsWithCategory);
-      setFoodProducts(foodProductsWithCategory);
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    }
-  };
+    setElectronicProducts(electronicProductsWithCategory);
+    setFoodProducts(foodProductsWithCategory);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
+}, []);
 
   const handleAddToCart = async(currentUser:User,product:Productstype) => {
     try {
@@ -179,15 +183,15 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
   }
           
 
-  const fetchLikedList = async(user:User) => {
-    try {
-      const likedList = await fetchLikedListFromDb(user);
-      setLikedList(likedList);
-
-    } catch (error) {
-      console.error('failed while fetching..',error)
-    }
+  
+const fetchLikedList = useCallback(async (user: User) => {
+  try {
+    const likedList = await fetchLikedListFromDb(user);
+    setLikedList(likedList);
+  } catch (error) {
+    console.error('Failed while fetching liked list:', error);
   }
+}, []);
 
   const handleAddLike = async(user:User,product:Productstype) => {
     try {

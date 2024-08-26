@@ -20,7 +20,7 @@ const Products = () => {
       if (currentUser) {
         fetchUpdate(currentUser)
       }
-    }, [currentUser])
+    }, [currentUser,fetchUpdate])
   
     useEffect(() => {
       if (electronicproducts.length === 0 || foodproducts.length === 0) {

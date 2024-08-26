@@ -1,5 +1,5 @@
 'use client'
-import React,{useEffect,useState} from 'react'
+import React,{useEffect,useState,useCallback} from 'react'
 import styles from './index.module.scss'
 import Image from 'next/image'
 import { useAuth } from '@/context/AuthContext'
@@ -49,22 +49,23 @@ const Card = () => {
         }
       };
 
-      const fetchProductstoCard = async (user?: User) => {
+    const fetchProductstoCard = useCallback(async (user?: User) => {
         try {
-          setfetchLoading(true);  
-          if(user){
+            setfetchLoading(true);
+        
+        if (user) {
             const fetchedCardProducts = await fetchCardProducts(user);
             setCardProducts(fetchedCardProducts);
-            setfetchLoading(false)
-          }
-          else {
-            setCardProducts(localCartItems)
-            setfetchLoading(false)
-          }
+        } else {
+            setCardProducts(localCartItems);
+        }
+        
+        setfetchLoading(false);
         } catch (error) {
-          console.error('Failed to fetch card products:', error);
-        } 
-      };
+            console.error('Failed to fetch card products:', error);
+            setfetchLoading(false);
+        }
+    }, [localCartItems]);
 
     useEffect(() => {
         if (currentUser) {
@@ -73,20 +74,20 @@ const Card = () => {
         else {
             fetchProductstoCard();
         }
-      }, [currentUser,localCartItems]);
+      }, [currentUser,localCartItems,fetchProductstoCard]);
     
-      const fetchTotalPricetoCard = () => {
+      const fetchTotalPricetoCard = useCallback(() => {
         const total = shoppingCardProducts.reduce((acc, product) => {
           return acc + (product.price * (product.quantity || 1));
         }, 0);
       
-        const discountedTotal = total - (total * discount); 
+        const discountedTotal = total - (total * discount);
         setTotalPrice(discountedTotal);
-      };
+      }, [shoppingCardProducts, discount]);
       
       useEffect(() => {
         fetchTotalPricetoCard();
-      }, [shoppingCardProducts, discount]); 
+      }, [shoppingCardProducts, discount,fetchTotalPricetoCard]); 
 
       const handleDecreaseQuantity = async(product:cardProducts,user?:User) => {
         try {

@@ -34,7 +34,7 @@ export default function SearchResults() {
         <div className={styles.searchContainer}>
             <Navbar />
             <div className={styles.productsContainer}>
-                <h2 className={styles.searchTitle}>Products for your search '{query}':</h2>
+                <h2 className={styles.searchTitle}>Products for your search {query}:</h2>
                 <div>
                     {hasResults ? (
                         <ul className={styles.productsInnerContainer}>
