@@ -2,6 +2,7 @@
 import React,{createContext,useContext,useState,useEffect,useCallback} from 'react'
 import { cardProducts, Productstype,User } from '@/lib/types';
 import { fetchElectronicProducts,fetchFoodProducts,addProductToCart,addLiketoDb,fetchLikedListFromDb,removeLikefromDb } from '@/lib/db'
+import { useAuth } from './AuthContext';
 
 interface ProductContextType {
     electronicproducts: Productstype[];
@@ -32,7 +33,7 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [localCartItems, setLocalCartItems] = useState<cardProducts[]>([]); 
   const [updatedCurrentUser, setUpdatedCurrentUser] = useState<User | null>(null);
   const [productStates, setProductStates] = useState<{ [key: string]: { loading: boolean, added: boolean } }>({})
-
+  
   useEffect(() => {
     fetchProducts();
       if(updatedCurrentUser){
@@ -219,7 +220,7 @@ const fetchLikedList = useCallback(async (user: User) => {
     <ProductContext.Provider value={{ electronicproducts,foodproducts,likedList,
     fetchProducts,handleAddToCart,handleAddLike,handleRemoveLike,fetchUpdate,
     productStates,handleAddToCartWithState,handleAddtoLocalCart,localCartItems,updateLocalCartItems,
-    clearLocalCart,increaseLocalProductQuantity,decreaseLocalProductQuantity,removeProductFromLocalCart }}>
+    clearLocalCart,increaseLocalProductQuantity,decreaseLocalProductQuantity,removeProductFromLocalCart}}>
       {children}
     </ProductContext.Provider>
   );

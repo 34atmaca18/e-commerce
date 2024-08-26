@@ -14,6 +14,21 @@ export async function fetchElectronicProducts(): Promise<Productstype[]> {
   }
 }
 
+export const fetchCartProductsCount = async (user: User): Promise<number> => {
+  try {
+    const query = `
+      SELECT COUNT(*) AS count
+      FROM card_items
+      WHERE user_id = $1;
+    `;
+    const result = await sql.query(query, [user.id]);
+    return parseInt(result.rows[0].count, 10);
+  } catch (error: any) {
+    console.error('Failed to fetch cart products count:', error.message);
+    return 0;
+  }
+};
+
 export const fetchCardProducts = async (user: User): Promise<cardProducts[]> => {
   try {
     const query = `

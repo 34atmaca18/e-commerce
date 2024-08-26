@@ -17,7 +17,7 @@ const FavoriteProducts: React.FC = () => {
   const [products, setProducts] = useState<Productstype[]>([])
   const {currentUser,isLoggedIn} = useAuth()
   const {likedList,handleAddToCartWithState,handleRemoveLike,handleAddLike,
-    productStates,electronicproducts,fetchUpdate} = useProduct()
+    productStates,electronicproducts,fetchUpdate,handleAddtoLocalCart} = useProduct()
 
 
   useEffect(() => {
@@ -108,7 +108,7 @@ const FavoriteProducts: React.FC = () => {
                     if (currentUser) {
                       handleAddToCartWithState(product.id, product,currentUser);
                     } else {
-                      alert('Please log in first!')
+                      handleAddtoLocalCart(product.id,product);
                     }
                   }}
                 >

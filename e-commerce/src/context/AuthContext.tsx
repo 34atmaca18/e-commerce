@@ -1,5 +1,5 @@
 'use client'
-import React,{createContext,useContext,useState,useEffect} from 'react'
+import React,{createContext,useContext,useState,useEffect,useCallback} from 'react'
 import {User} from '../lib/types'
 import { useRouter } from 'next/navigation'
 import { addLocalCartItemsToDb } from '../lib/db';
@@ -30,7 +30,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setIsLoggedIn(loggedIn);
       setIsAdmin(adminStatus);
     }, []);
-  
   
     const login = async (user: User) => {
       try {

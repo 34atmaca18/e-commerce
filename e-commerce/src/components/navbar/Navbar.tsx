@@ -4,9 +4,11 @@ import Link from 'next/link';
 import styles from './index.module.scss'
 import Image from 'next/image';
 import { useAuth } from '@/context/AuthContext';
+import { useProduct } from '@/context/ProductContext';
 
 const Navbar = () => {
     const {isLoggedIn,isAdmin} = useAuth()
+
     return (
         <nav className={styles.navContainer}>
             <Link className={styles.navLeft} href={"/"}>
@@ -45,11 +47,14 @@ const Navbar = () => {
                     )
                 }
                 <Link className={styles.navCart} href={'/shoppingcard'}>
-                    <Image 
-                    src={'/icons/shopping-cart.svg'} 
-                    alt='arrowdown'
-                    width={23}
-                    height={23} />
+                    <div className={styles.cartImageContainer}>
+                        <Image 
+                        src={'/icons/shopping-cart.svg'} 
+                        alt='arrowdown'
+                        width={23}
+                        height={23} />
+                        <span className={styles.productsCounter}>0</span>
+                    </div>
                 </Link>
                 
                 {
