@@ -8,6 +8,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Loader } from '@mantine/core';
 import Navbar from '@/components/navbar/Navbar';
+import { Suspense } from 'react';
 
 const filterProducts = (query: string, products: Productstype[]) => {
     return products.filter(product =>
@@ -19,7 +20,7 @@ const formatCategory = (category: string) => {
     return category.replace(/products$/i, '');
 }
 
-export default function SearchResults() {
+function SearchResultsContent() {
     const searchParams = useSearchParams();
     const query = searchParams.get('query') || '';
     const { electronicproducts, foodproducts,likedList,
@@ -101,5 +102,12 @@ export default function SearchResults() {
                 </div>
             </div>
         </div>
+    );
+}
+export default function SearchResults() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <SearchResultsContent />
+        </Suspense>
     );
 }
