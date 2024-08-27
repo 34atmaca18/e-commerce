@@ -2,7 +2,6 @@
 import React,{createContext,useContext,useState,useEffect,useCallback} from 'react'
 import { cardProducts, Productstype,User } from '@/lib/types';
 import { fetchElectronicProducts,fetchFoodProducts,addProductToCart,addLiketoDb,fetchLikedListFromDb,removeLikefromDb } from '@/lib/db'
-import { useAuth } from './AuthContext';
 
 interface ProductContextType {
     electronicproducts: Productstype[];
