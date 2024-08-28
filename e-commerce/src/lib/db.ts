@@ -247,7 +247,7 @@ export const fetchLikedListFromDb = async (user: User): Promise<Productstype[]> 
   }
 };
 
-export async function registerUser(data: { name: string, email: string, password: string, country: string }): Promise<{ user: User | null, error?: string }> {
+export async function registerUser(data: User): Promise<{ user: User | null, error?: string }> {
   try {
     const existingUser = await sql<User>`SELECT * FROM users WHERE email = ${data.email}`;
 
