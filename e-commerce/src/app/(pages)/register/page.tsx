@@ -1,23 +1,36 @@
 'use client'
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import {RegisterForm} from '../../const/const'
 import styles from './index.module.scss'
 import {Navbar} from '../../const/const'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
+import { Loading,Redirecting } from '@/components/skeletons/Skeletons'
 
 const RegisterPage = () => {
-  const {isLoggedIn} = useAuth();
+  const [loading, setLoading] = useState<boolean>(true)
+  const [redirecting, setRedirecting] = useState<boolean>(false)
+  const {isLoggedIn,pageLoading} = useAuth()
   const router = useRouter()
-  if (isLoggedIn){
-    router.push('/')
-    return (<div className={styles.redirecting}>Redirecting...</div>)
-  }
+
+  useEffect(() => {
+    if(!pageLoading){
+      if(isLoggedIn){
+        setRedirecting(true);
+        router.push('/');
+      }
+      else {
+        setLoading(false);
+      }
+    }
+  }, [isLoggedIn,pageLoading])
   
-  else return (
+  return (
     <div className={styles.registerContainer}>
         <Navbar />
         <RegisterForm />
+        {loading && <Loading />}
+        {redirecting && <Redirecting />}
     </div>
   )
 }

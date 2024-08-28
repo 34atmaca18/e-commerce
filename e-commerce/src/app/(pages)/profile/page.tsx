@@ -4,22 +4,30 @@ import { ProfileInfo, Navbar,LikedProducts } from '../../const/const';
 import styles from './index.module.scss';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { UserInfoLoader } from '../../const/const';
+import { Redirecting } from '@/components/skeletons/Skeletons';
 
 const Profile = () => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn,pageLoading } = useAuth();
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [redirecting, setRedirecting] = useState<boolean>(false)
 
-  if (loading) {
-    return <div className={styles.redirecting}>Loading...</div>;
-  }
+
+  useEffect(() => {
+    if(!pageLoading){
+      if(!isLoggedIn){
+        setRedirecting(true)
+        router.push('/login')
+      }
+    }
+  }, [isLoggedIn,pageLoading])
+  
 
   return (
     <div className={styles.profileContainer}>
       <Navbar />
       <ProfileInfo />
       <LikedProducts />
+      {redirecting && <Redirecting />}
     </div>
   );
 };

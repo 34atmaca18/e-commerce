@@ -2,6 +2,22 @@
 import React from 'react'
 import styles from './index.module.scss'
 
+export const Loading = () => {
+    return (
+        <div className={styles.loadingOutter}>
+            <h3>Loading...</h3>
+        </div>
+    )
+}
+
+export const Redirecting = () => {
+    return (
+        <div className={styles.redirectingOutter}>
+            <h3>Redirecting...</h3>
+        </div>
+    )
+}
+
 export const ProductLoader = () => {
   return (
     <ul className={styles.loaderContainer}>

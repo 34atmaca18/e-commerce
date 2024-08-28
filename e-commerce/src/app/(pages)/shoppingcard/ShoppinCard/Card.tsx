@@ -14,8 +14,8 @@ const Card = () => {
     const [totalPrice, setTotalPrice] = useState<number>(0)
     const {currentUser} = useAuth()
     const {localCartItems,clearLocalCart,
-        increaseLocalProductQuantity,
-        decreaseLocalProductQuantity,removeProductFromLocalCart} = useProduct()
+        increaseLocalProductQuantity,decreaseLocalProductQuantity,
+        removeProductFromLocalCart,updateCartItems} = useProduct()
     const [coupon, setCoupon] = useState<string>('');
     const [discount, setDiscount] = useState<number>(0);
     const [couponUsed, setCouponUsed] = useState(false);
@@ -94,6 +94,7 @@ const Card = () => {
             if(user) {
                 await decreaseProductQuantity(user,product)
                 await fetchProductstoCard(user);
+                updateCartItems(user)
             }
             else {
                 decreaseLocalProductQuantity(product.id)
@@ -123,6 +124,7 @@ const Card = () => {
         try {
             if(user) {
                 await deleteProductsFromCard(user);
+                updateCartItems(user)
             }
             else {
                 clearLocalCart();
@@ -138,6 +140,7 @@ const Card = () => {
             if(user){
                 await deleteSelectedProductsFromCard(user,product)
                 await fetchProductstoCard(user);
+                updateCartItems(user)
             }else {
                 removeProductFromLocalCart(product.id);
                 await fetchProductstoCard();

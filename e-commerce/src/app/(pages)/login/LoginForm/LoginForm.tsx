@@ -1,5 +1,5 @@
 'use client'
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { Button } from '@mantine/core';
 import Link from 'next/link';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
@@ -11,7 +11,7 @@ import { useAuth } from '@/context/AuthContext';
 import { Loader } from '@mantine/core';
 
 const LoginForm: React.FC = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isButtonLoading, setisButtonLoading] = useState<boolean>(false)
   const {login} = useAuth()
   const initialValues: LoginFormInputs = {
     email: '',
@@ -28,13 +28,13 @@ const LoginForm: React.FC = () => {
   });
 
   const onSubmit = async (values: LoginFormInputs) => {
-    setIsLoading(true)
+    setisButtonLoading(true)
     const { user, error } = await loginUser(values.email, values.password);
     if (error) {
-      setIsLoading(false)
+      setisButtonLoading(false)
       alert(error); 
     } else if (user) {
-      setIsLoading(false)
+      setisButtonLoading(false)
       login(user);
     }
   };
@@ -85,7 +85,7 @@ const LoginForm: React.FC = () => {
 
               <div className={styles.buttonContainer}>
                 <Button className={styles.signInButton} type="submit" variant="filled" color="gray">
-                  {isLoading ? <Loader color="white" size="sm"/>: <span>Sign In</span>}
+                  {isButtonLoading ? <Loader color="white" size="sm"/>: <span>Sign In</span>}
                 </Button>
               </div>
             </Form>

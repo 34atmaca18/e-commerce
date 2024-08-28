@@ -140,9 +140,10 @@ $grey: rgb(201, 201, 201);
 
 @media screen and (max-width: 1600px) {
     .registerContainer { 
+        padding: 0 140px;
         .innerContainer {
             .innerRight {
-                padding: 0 50px;
+                padding: 0 20px;
             }
         }
     }
@@ -150,12 +151,7 @@ $grey: rgb(201, 201, 201);
 
 @media screen and (max-width: 1400px) {
     .registerContainer {
-        padding: 0 150px;   
-        .innerContainer {
-            .innerRight {
-                padding: 0 50px;
-            }
-        }
+        padding: 0 100px;   
     }
 }
 

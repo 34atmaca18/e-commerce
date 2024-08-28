@@ -8,6 +8,7 @@ interface AuthContextType {
     currentUser: User | null;
     isLoggedIn: boolean;
     isAdmin: boolean;
+    pageLoading: boolean;
     login: (user: User) => void;
     logout: () => void;
   }
@@ -18,6 +19,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
+    const [pageLoading, setpageLoading] = useState<boolean>(true);
 
     useEffect(() => {
       const user = localStorage.getItem('currentUser');
@@ -29,6 +31,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
       setIsLoggedIn(loggedIn);
       setIsAdmin(adminStatus);
+      setpageLoading(false);
     }, []);
   
     const login = async (user: User) => {
@@ -65,7 +68,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
     
     return (
-      <AuthContext.Provider value={{ currentUser, isLoggedIn, login, logout,isAdmin }}>
+      <AuthContext.Provider value={{ pageLoading,currentUser, isLoggedIn, login, logout,isAdmin }}>
         {children}
       </AuthContext.Provider>
     );

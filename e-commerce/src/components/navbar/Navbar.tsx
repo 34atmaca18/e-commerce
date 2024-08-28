@@ -1,13 +1,37 @@
 'use client'
-import React from 'react'
+import React,{useEffect, useState,useCallback} from 'react'
 import Link from 'next/link';
 import styles from './index.module.scss'
 import Image from 'next/image';
 import { useAuth } from '@/context/AuthContext';
 import { useProduct } from '@/context/ProductContext';
+import { fetchCartProductsCount } from '@/lib/db';
+import { User } from '@/lib/types';
 
 const Navbar = () => {
-    const {isLoggedIn,isAdmin} = useAuth()
+    const {isLoggedIn,isAdmin,currentUser} = useAuth()
+    const {localCartItems,userCartItems} = useProduct();
+    const [cartCounter, setcartCounter] = useState<number>(0)
+
+    const fetchCartCounter = useCallback(async (user: User) => {
+        try {
+            const counter = await fetchCartProductsCount(user);
+            setcartCounter(counter);
+        } catch (error) {
+            console.error('Error fetching cart counter:', error);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (currentUser) {
+            fetchCartCounter(currentUser);
+        }
+        else{
+            const localCounter = localCartItems.length
+            setcartCounter(localCounter);
+          }
+    }, [currentUser, fetchCartCounter,localCartItems,userCartItems]);
+    
 
     return (
         <nav className={styles.navContainer}>
@@ -53,7 +77,7 @@ const Navbar = () => {
                         alt='arrowdown'
                         width={23}
                         height={23} />
-                        <span className={styles.productsCounter}>0</span>
+                        <span className={styles.productsCounter}>{cartCounter}</span>
                     </div>
                 </Link>
                 
