@@ -11,7 +11,7 @@ import Link from 'next/link'
 const LikedProducts = () => {
   const [fetchLoading, setfetchLoading] = useState<boolean>(true)
   const {currentUser} = useAuth()
-  const {likedList,handleAddLike,handleRemoveLike,
+  const {likedList,handleAddLike,fetchLikedList,handleRemoveLike,
     fetchUpdate,handleAddToCartWithState,productStates} = useProduct()
 
   useEffect(() => {
@@ -19,8 +19,9 @@ const LikedProducts = () => {
       fetchUpdate(currentUser).then(() => {
         setfetchLoading(false);
       });
+      fetchLikedList(currentUser);
     }
-  }, [currentUser,fetchUpdate])
+  }, [currentUser,fetchUpdate,fetchLikedList])
 
   return (
       <div className={styles.wrapper}>

@@ -7,14 +7,14 @@ import { Productstype } from '@/lib/types'
 import {AddProduct,DeleteProduct} from '../../../const/const'
 import Image from 'next/image'
 import { useAuth } from '@/context/AuthContext'
+import { useProduct } from '@/context/ProductContext'
 import { Loading, Redirecting} from '@/components/skeletons/Skeletons'
 import { useRouter } from 'next/navigation'
 
 
 const AdminCrud = () => {
   const {isAdmin,pageLoading} = useAuth()
-  const [electronicproducts, setElectronicProducts] = useState<Productstype[]>([]);
-  const [foodproducts, setFoodProducts] = useState<Productstype[]>([]);
+  const {fetchProducts,electronicproducts,foodproducts} = useProduct()
   const [loading, setLoading] = useState<boolean>(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -28,33 +28,13 @@ const AdminCrud = () => {
         setRedirecting(true)
         router.push('/')
       }
+      else {
+        setLoading(false);
+      }
     }
   }, [isAdmin,pageLoading])
   
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const electronicData = await fetchElectronicProducts();
-        const foodData = await fetchFoodProducts();
-        const electronicProductsWithCategory = electronicData.map(product => ({
-          ...product,
-          category: 'electronicproducts' as const
-        }));
-  
-        const foodProductsWithCategory = foodData.map(product => ({
-          ...product,
-          category: 'foodproducts' as const
-        }));
-  
-        setElectronicProducts(electronicProductsWithCategory);
-        setFoodProducts(foodProductsWithCategory);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchProducts();
   }, [isAddModalOpen,isDeleteModalOpen]);
 

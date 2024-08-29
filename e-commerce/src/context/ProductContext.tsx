@@ -23,6 +23,7 @@ interface ProductContextType {
     decreaseLocalProductQuantity: (productId: number) => void;
     removeProductFromLocalCart: (productId: number) => void;
     updateCartItems: (user:User) => void
+    fetchLikedList: (user:User) => void
   }
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
@@ -32,16 +33,12 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [foodproducts, setFoodProducts] = useState<Productstype[]>([]);
   const [likedList, setLikedList] = useState<Productstype[]>([])
   const [localCartItems, setLocalCartItems] = useState<cardProducts[]>([]); 
-  const [updatedCurrentUser, setUpdatedCurrentUser] = useState<User | null>(null);
   const [productStates, setProductStates] = useState<{ [key: string]: { loading: boolean, added: boolean } }>({})
   const [userCartItems,setuserCartItems] = useState<cardProducts[]>([]);
 
   useEffect(() => {
     fetchProducts();
-      if(updatedCurrentUser){
-        fetchLikedList(updatedCurrentUser);
-      }
-    }, [updatedCurrentUser])
+    }, [])
 
   useEffect(() => {
     updateLocalCartItems();
@@ -154,7 +151,6 @@ const fetchUpdate = useCallback(async (user: User) => {
   try {
       await fetchProducts();
       if (user) {
-          setUpdatedCurrentUser(user); 
           await fetchLikedList(user); 
       }
   } catch (error) {
@@ -230,7 +226,7 @@ const fetchLikedList = useCallback(async (user: User) => {
     fetchProducts,handleAddToCart,handleAddLike,handleRemoveLike,fetchUpdate,
     productStates,handleAddToCartWithState,handleAddtoLocalCart,localCartItems,updateLocalCartItems,
     clearLocalCart,increaseLocalProductQuantity,decreaseLocalProductQuantity,removeProductFromLocalCart,userCartItems,
-    updateCartItems}}>
+    updateCartItems,fetchLikedList}}>
       {children}
     </ProductContext.Provider>
   );
