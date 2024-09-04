@@ -25,7 +25,7 @@ function SearchResultsContent() {
     const query = searchParams.get('query') || '';
     const { electronicproducts, foodproducts,likedList,
         productStates,handleAddLike,handleRemoveLike,handleAddToCartWithState } = useProduct();
-    const {currentUser,isLoggedIn} = useAuth()
+    const {currentUser} = useAuth()
     const filteredElectronics = filterProducts(query, electronicproducts);
     const filteredFood = filterProducts(query, foodproducts);
     const allProducts = [...filteredElectronics, ...filteredFood];
@@ -44,7 +44,7 @@ function SearchResultsContent() {
                                 const productState = productStates[product.id] || { loading: false, added: false };
                                 return (
                                     <li key={product.id} className={styles.allProducts}>
-                                        {isLoggedIn && (
+                                        {currentUser && (
                                             <button
                                                 onClick={() => {
                                                     if (currentUser) {
