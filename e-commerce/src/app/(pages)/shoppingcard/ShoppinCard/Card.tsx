@@ -4,7 +4,7 @@ import styles from './index.module.scss'
 import Image from 'next/image'
 import { useAuth } from '@/context/AuthContext'
 import { useProduct } from '@/context/ProductContext'
-import { User,cardProducts } from '@/lib/types'
+import { UserwithoutPassword,cardProducts } from '@/lib/types'
 import { CardLoader } from '@/components/skeletons/Skeletons'
 import { fetchCardProducts,decreaseProductQuantity,increaseProductQuantity,
     deleteProductsFromCard,deleteSelectedProductsFromCard } from '@/lib/db'
@@ -49,7 +49,7 @@ const Card = () => {
         }
       };
 
-    const fetchProductstoCard = useCallback(async (user?: User) => {
+    const fetchProductstoCard = useCallback(async (user?: UserwithoutPassword) => {
         try {
             setfetchLoading(true);
         
@@ -89,7 +89,7 @@ const Card = () => {
         fetchTotalPricetoCard();
       }, [shoppingCardProducts, discount,fetchTotalPricetoCard]); 
 
-      const handleDecreaseQuantity = async(product:cardProducts,user?:User) => {
+      const handleDecreaseQuantity = async(product:cardProducts,user?:UserwithoutPassword) => {
         try {
             if(user) {
                 await decreaseProductQuantity(user,product)
@@ -105,7 +105,7 @@ const Card = () => {
         }
       }
         
-      const handleIncreaseQuantity = async(product:cardProducts,user?:User) => {
+      const handleIncreaseQuantity = async(product:cardProducts,user?:UserwithoutPassword) => {
         try {
             if(user) {
                 await increaseProductQuantity(user,product)
@@ -120,7 +120,7 @@ const Card = () => {
         }
       }
 
-      const handleDeleteAllProducts = async(user?:User) => {
+      const handleDeleteAllProducts = async(user?:UserwithoutPassword) => {
         try {
             if(user) {
                 await deleteProductsFromCard(user);
@@ -135,7 +135,7 @@ const Card = () => {
         }
       }
 
-      const handleDeleteSelectedProducts = async(product:cardProducts,user?:User) => {
+      const handleDeleteSelectedProducts = async(product:cardProducts,user?:UserwithoutPassword) => {
         try {
             if(user){
                 await deleteSelectedProductsFromCard(user,product)
