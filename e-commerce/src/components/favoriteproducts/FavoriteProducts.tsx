@@ -15,7 +15,7 @@ import Link from 'next/link';
 const FavoriteProducts: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [products, setProducts] = useState<Productstype[]>([])
-  const {currentUser,isLoggedIn} = useAuth()
+  const {currentUser} = useAuth()
   const {likedList,handleAddToCartWithState,handleRemoveLike,handleAddLike,
     productStates,electronicproducts,fetchUpdate,handleAddtoLocalCart} = useProduct()
 
@@ -70,7 +70,7 @@ const FavoriteProducts: React.FC = () => {
             <li 
             key={index}
             className={styles.products}>
-              {isLoggedIn && (
+              {currentUser && (
                   <button 
                     onClick={() => {
                       if (currentUser) {
