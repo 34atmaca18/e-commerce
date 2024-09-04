@@ -7,12 +7,12 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styles from './index.module.scss';
 import { RegisterFormValues } from '@/lib/types';
-import { registerUser } from '@/lib/db';
-import { useRouter } from 'next/navigation';
 import { Loader } from '@mantine/core';
+import { signup } from '@/auth/auth';
+import { useRouter } from 'next/navigation';
 
 const RegisterForm: React.FC = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isButtonLoading, setisButtonLoading] = useState<boolean>(false)
   const router = useRouter()
   const initialValues: RegisterFormValues = {
     name: '',
@@ -33,14 +33,14 @@ const RegisterForm: React.FC = () => {
   });
 
   const onSubmit = async (values: RegisterFormValues) => {
-    setIsLoading(true)
-    const {user,error} = await registerUser(values);
-    if (error) {
-      setIsLoading(false)
-      alert(error);
-    } else if (user) {
-      setIsLoading(false)
-      router.push('/login')
+    setisButtonLoading(true)
+    const formState = await signup(values);
+    if (formState?.message) {
+      setisButtonLoading(false)
+      alert(formState.message);
+    } else {
+      setisButtonLoading(false)
+      router.push('/login');
     }
   };
   return (
@@ -131,7 +131,7 @@ const RegisterForm: React.FC = () => {
 
               <div className={styles.buttonContainer}>
                 <Button className={styles.signInButton} type="submit" variant="filled" color="gray">
-                  {isLoading ? <Loader color='white' size='sm' /> : <span>Sign Up</span>}
+                  {isButtonLoading ? <Loader color='white' size='sm' /> : <span>Sign Up</span>}
                 </Button>
               </div>
             </Form>

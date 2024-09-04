@@ -12,7 +12,7 @@ $grey: rgb(201, 201, 201);
         border-radius: 30px;
         padding: 20px;
         display: flex;
-        gap: 30px;
+        gap: 10px;
         height: fit-content;
 
         .innerLeft {
@@ -21,6 +21,7 @@ $grey: rgb(201, 201, 201);
             background-color: $grey;
             border-radius: 10px;
             position: relative;
+            min-height: 400px;
 
             .emptyCardContainer {
                 width: fit-content;
@@ -159,6 +160,7 @@ $grey: rgb(201, 201, 201);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            min-height: 200px;
 
             .rightTop {
                 display: flex;

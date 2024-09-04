@@ -1,7 +1,6 @@
 'use server'
 import { sql } from '@vercel/postgres';
-import {User,Productstype,cardProducts} from './types'
-import bcrypt from 'bcrypt';
+import {UserwithoutPassword,Productstype,cardProducts} from './types'
 import { productValues } from '@/components/modals/AddProduct/AddProduct';
 
 export async function fetchElectronicProducts(): Promise<Productstype[]> {
@@ -14,7 +13,7 @@ export async function fetchElectronicProducts(): Promise<Productstype[]> {
   }
 }
 
-export const fetchCartProductsCount = async (user: User): Promise<number> => {
+export const fetchCartProductsCount = async (user: UserwithoutPassword): Promise<number> => {
   try {
     const query = `
       SELECT COUNT(*) AS count
@@ -29,7 +28,7 @@ export const fetchCartProductsCount = async (user: User): Promise<number> => {
   }
 };
 
-export const fetchCardProducts = async (user: User): Promise<cardProducts[]> => {
+export const fetchCardProducts = async (user: UserwithoutPassword): Promise<cardProducts[]> => {
   try {
     const query = `
       SELECT name, info, price, image, quantity
@@ -45,7 +44,7 @@ export const fetchCardProducts = async (user: User): Promise<cardProducts[]> => 
   }
 };
 
-export const addLocalCartItemsToDb = async (user: User, localCartItems: cardProducts[]): Promise<void> => {
+export const addLocalCartItemsToDb = async (user: UserwithoutPassword, localCartItems: cardProducts[]): Promise<void> => {
   try {
     for (const item of localCartItems) {
       const query = `
@@ -65,7 +64,7 @@ export const addLocalCartItemsToDb = async (user: User, localCartItems: cardProd
 
 
 
-export const addProductToCart = async (user: User, product: Productstype): Promise<void> => {
+export const addProductToCart = async (user: UserwithoutPassword, product: Productstype): Promise<void> => {
   try {
     const query = `
       INSERT INTO card_items (user_id, name, info, price, image, quantity, category)
@@ -80,7 +79,7 @@ export const addProductToCart = async (user: User, product: Productstype): Promi
   }
 };
 
-export const decreaseProductQuantity = async (user: User, product: cardProducts): Promise<void> => {
+export const decreaseProductQuantity = async (user: UserwithoutPassword, product: cardProducts): Promise<void> => {
   try {
     const result = await sql.query('SELECT quantity FROM card_items WHERE user_id = $1 AND name = $2', [user.id, product.name]);
     if (result.rows.length > 0) {
@@ -98,7 +97,7 @@ export const decreaseProductQuantity = async (user: User, product: cardProducts)
   }
 };
 
-export const increaseProductQuantity = async (user: User, product: cardProducts): Promise<void> => {
+export const increaseProductQuantity = async (user: UserwithoutPassword, product: cardProducts): Promise<void> => {
   try {
     await sql.query('UPDATE card_items SET quantity = quantity + 1 WHERE user_id = $1 AND name = $2', [user.id, product.name]);
   } catch (error) {
@@ -107,7 +106,7 @@ export const increaseProductQuantity = async (user: User, product: cardProducts)
   }
 };
 
-export const deleteProductsFromCard = async (user:User): Promise<void> => {
+export const deleteProductsFromCard = async (user:UserwithoutPassword): Promise<void> => {
   try {
     const query = `
       DELETE FROM card_items
@@ -120,7 +119,7 @@ export const deleteProductsFromCard = async (user:User): Promise<void> => {
   }
 }
 
-export const deleteSelectedProductsFromCard = async (user: User, product: cardProducts): Promise<void> => {
+export const deleteSelectedProductsFromCard = async (user: UserwithoutPassword, product: cardProducts): Promise<void> => {
   try {
     const query = `
       DELETE FROM card_items
@@ -133,15 +132,6 @@ export const deleteSelectedProductsFromCard = async (user: User, product: cardPr
     throw new Error('Failed to delete selected product');
   }
 };
-
-
-/* 
-products page inde handleAddtoCart burdaki fonksiyonu tetiklicek sonrasında db'e 
-cart_items tablosuna product infolar user_id ile birlikte eklenecek. bu işlemi yaptıktan sonra
-aynı user id'ye sahip olan ürünlerin sayısını bulabilmemiz için de bir fetch fonksiyonu yazıcaz buraya 
-bu bize navbarda sepette var olan ürün sayısını verecek currentuser için. shopping card'a gittiğimizde
-burdaki fonksiyon tetiklenicek ve sepete eklenen ürünler aynı currentuser id için fetch edilecek.
-*/
 
 export async function fetchFoodProducts(): Promise<Productstype[]> {
   try {
@@ -190,7 +180,7 @@ export const deleteProductFromDb = async (name: string, category: string): Promi
   }
 };
 
-export const addLiketoDb = async (user: User, product: Productstype): Promise<void> => {
+export const addLiketoDb = async (user: UserwithoutPassword, product: Productstype): Promise<void> => {
   try {
     const query = `
       INSERT INTO liked_items (user_id, name, info, price, image, category)
@@ -213,7 +203,7 @@ export const addLiketoDb = async (user: User, product: Productstype): Promise<vo
   }
 };
 
-export const removeLikefromDb = async (user: User, product: Productstype): Promise<void> => {
+export const removeLikefromDb = async (user: UserwithoutPassword, product: Productstype): Promise<void> => {
   try {
     const query = `
       DELETE FROM liked_items
@@ -231,7 +221,8 @@ export const removeLikefromDb = async (user: User, product: Productstype): Promi
     throw new Error('Failed to remove product from liked items');
   }
 };
-export const fetchLikedListFromDb = async (user: User): Promise<Productstype[]> => {
+
+export const fetchLikedListFromDb = async (user: UserwithoutPassword): Promise<Productstype[]> => {
   try {
     const query = `
       SELECT user_id, id, name, info, price, image, category
@@ -246,47 +237,3 @@ export const fetchLikedListFromDb = async (user: User): Promise<Productstype[]> 
     return []; 
   }
 };
-
-export async function registerUser(data: User): Promise<{ user: User | null, error?: string }> {
-  try {
-    const existingUser = await sql<User>`SELECT * FROM users WHERE email = ${data.email}`;
-
-    if (existingUser.rows.length > 0) {
-      return { user: null, error: 'This email address is already in use.' };
-    }
-    
-    const hashedPassword = await bcrypt.hash(data.password, 10);
-
-    const result = await sql<User>`INSERT INTO users (name, email, password, country) 
-    VALUES (${data.name}, ${data.email}, ${hashedPassword}, ${data.country}) RETURNING *;`;
-
-    return { user: result.rows[0] || null };
-  } catch (error) {
-    console.error("Failed to create user:", error);
-    return { user: null, error: 'An error occurred while creating the user.' };
-  }
-}
-
-export async function loginUser(email: string, password: string): Promise<{ user: User | null, error?: string }> {
-  try {
-    const result = await sql<User>`
-      SELECT * FROM users WHERE email = ${email}`;
-    
-      const user = result.rows[0];
-    if (!user) {
-      return { user: null, error: 'No account found with this email.' };
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      return { user: null, error: 'Invalid password.' };
-    }
-
-    
-    return { user };
-  } catch (error) {
-    console.error("Failed to authenticate user:", error);
-    return { user: null, error: 'An error occurred during authentication.' };
-  }
-}

@@ -4,10 +4,13 @@ import React,{useState,useEffect} from 'react'
 import styles from './index.module.scss'
 import { useAuth } from '@/context/AuthContext'
 import {UserInfoLoader} from '@/app/const/const'
+import { logoutServer } from '@/auth/auth'
+import { useRouter } from 'next/navigation'
 
 const ProfileInfo = () => {
+  const router = useRouter()
   const [fetchLoading, setfetchLoading] = useState<boolean>(true)
-  const {currentUser,logout} = useAuth()
+  const {currentUser,logoutClient} = useAuth()
 
   useEffect(() => {
     if(!currentUser) {
@@ -19,7 +22,9 @@ const ProfileInfo = () => {
   }, [currentUser])
 
   const handleLogout = () => {
-    logout();
+    logoutClient();
+    logoutServer();
+    router.push('/login')
   }
 
   return (

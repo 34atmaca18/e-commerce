@@ -15,7 +15,6 @@ import DeleteProduct from '@/components/modals/DeleteProduct/DeleteProduct'
 import { ProductLoader,UserInfoLoader,CardLoader } from '@/components/skeletons/Skeletons'
 import LikedProducts from '../(pages)/profile/LikedProducts/LikedProducts'
 
-
 const footerLinks: FooterSection[] = [
     {
         title: 'flemman.',

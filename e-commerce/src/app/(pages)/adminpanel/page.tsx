@@ -1,4 +1,3 @@
-'use client'
 import styles from './index.module.scss'
 import {Navbar,AdminCrud} from '../../const/const'
 

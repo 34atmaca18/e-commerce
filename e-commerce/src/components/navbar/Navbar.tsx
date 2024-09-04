@@ -6,14 +6,14 @@ import Image from 'next/image';
 import { useAuth } from '@/context/AuthContext';
 import { useProduct } from '@/context/ProductContext';
 import { fetchCartProductsCount } from '@/lib/db';
-import { User } from '@/lib/types';
+import { UserwithoutPassword } from '@/lib/types';
 
 const Navbar = () => {
-    const {isLoggedIn,isAdmin,currentUser} = useAuth()
+    const {currentUser} = useAuth()
     const {localCartItems,userCartItems} = useProduct();
     const [cartCounter, setcartCounter] = useState<number>(0)
 
-    const fetchCartCounter = useCallback(async (user: User) => {
+    const fetchCartCounter = useCallback(async (user: UserwithoutPassword) => {
         try {
             const counter = await fetchCartProductsCount(user);
             setcartCounter(counter);
@@ -53,7 +53,7 @@ const Navbar = () => {
                     </div>
                 </div>
                 {
-                    isLoggedIn ? (<Link className={styles.navUser} href={'/profile'}>
+                    currentUser ? (<Link className={styles.navUser} href={'/profile'}>
                                     <Image 
                                     src={'/icons/user.svg'} 
                                     alt='arrowdown'
@@ -80,12 +80,7 @@ const Navbar = () => {
                         <span className={styles.productsCounter}>{cartCounter}</span>
                     </div>
                 </Link>
-                
-                {
-                    isAdmin && (
-                        <Link className={styles.adminControl} href={'/adminpanel'}>Admin Dashboard</Link>
-                    )
-                }
+                <Link className={styles.adminControl} href={'/adminpanel'}>Admin Dashboard</Link>
             </div>
         </nav>
     )

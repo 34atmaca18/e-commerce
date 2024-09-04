@@ -11,7 +11,7 @@ import Link from 'next/link';
 
 const Products = () => {
   const [fetchLoading, setFetchLoading] = useState<boolean>(true)
-  const {currentUser,isLoggedIn} = useAuth()
+  const {currentUser} = useAuth()
   const {electronicproducts,foodproducts,likedList,
     handleAddLike,handleRemoveLike,fetchUpdate,
     handleAddToCartWithState,productStates,handleAddtoLocalCart} = useProduct()
@@ -44,7 +44,7 @@ const Products = () => {
 
             return (
               <li key={product.id} className={styles.electronicProducts}>
-                {isLoggedIn && (
+                {currentUser && (
                   <button 
                     onClick={() => {
                       if (currentUser) {
@@ -108,7 +108,7 @@ const Products = () => {
             
             return (
               <li key={product.id} className={styles.electronicProducts}>
-                {isLoggedIn && (
+                {currentUser && (
                   <button 
                     onClick={() => {
                       if (currentUser) {

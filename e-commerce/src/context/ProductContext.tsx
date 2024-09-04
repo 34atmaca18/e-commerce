@@ -1,6 +1,6 @@
 'use client'
 import React,{createContext,useContext,useState,useEffect,useCallback} from 'react'
-import { cardProducts, Productstype,User } from '@/lib/types';
+import { cardProducts, Productstype,UserwithoutPassword } from '@/lib/types';
 import { fetchElectronicProducts,fetchFoodProducts,fetchCardProducts,addProductToCart,addLiketoDb,fetchLikedListFromDb,removeLikefromDb } from '@/lib/db'
 
 interface ProductContextType {
@@ -11,19 +11,19 @@ interface ProductContextType {
     localCartItems: cardProducts[];
     userCartItems: cardProducts[];
     fetchProducts: () => Promise<void>;
-    handleAddToCart: (currentUser: User, product: Productstype) => Promise<void>;
-    handleAddLike: (user: User, product: Productstype) => Promise<void>;
-    handleRemoveLike: (user: User, product: Productstype) => Promise<void>;
-    fetchUpdate: (user: User) => Promise<void>;
-    handleAddToCartWithState: (productId: number,product: Productstype,user:User) => Promise<void>;
+    handleAddToCart: (currentUser: UserwithoutPassword, product: Productstype) => Promise<void>;
+    handleAddLike: (user: UserwithoutPassword, product: Productstype) => Promise<void>;
+    handleRemoveLike: (user: UserwithoutPassword, product: Productstype) => Promise<void>;
+    fetchUpdate: (user: UserwithoutPassword) => Promise<void>;
+    handleAddToCartWithState: (productId: number,product: Productstype,user:UserwithoutPassword) => Promise<void>;
     handleAddtoLocalCart: (productId: number,product: Productstype) => Promise<void>;
     updateLocalCartItems: () => void;
     clearLocalCart: () => void;
     increaseLocalProductQuantity: (productId: number) => void;
     decreaseLocalProductQuantity: (productId: number) => void;
     removeProductFromLocalCart: (productId: number) => void;
-    updateCartItems: (user:User) => void
-    fetchLikedList: (user:User) => void
+    updateCartItems: (user:UserwithoutPassword) => void
+    fetchLikedList: (user:UserwithoutPassword) => void
   }
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
@@ -44,7 +44,7 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
     updateLocalCartItems();
   },[])
 
-  const updateCartItems = useCallback(async(user:User) => {
+  const updateCartItems = useCallback(async(user:UserwithoutPassword) => {
     const newItems = await fetchCardProducts(user);
     setuserCartItems(newItems)
   },[])
@@ -90,7 +90,7 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setLocalCartItems(localCart);
   }, []);
 
-  const handleAddToCartWithState = async (productId: number, product: Productstype,user:User) => {
+  const handleAddToCartWithState = async (productId: number, product: Productstype,user:UserwithoutPassword) => {
     setProductStates(prevState => ({
       ...prevState,
       [productId]: { loading: true, added: false }
@@ -147,7 +147,7 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
 }
 
       
-const fetchUpdate = useCallback(async (user: User) => {
+const fetchUpdate = useCallback(async (user: UserwithoutPassword) => {
   try {
       await fetchProducts();
       if (user) {
@@ -179,7 +179,7 @@ const fetchProducts = useCallback(async () => {
   }
 }, []);
 
-  const handleAddToCart = async(currentUser:User,product:Productstype) => {
+  const handleAddToCart = async(currentUser:UserwithoutPassword,product:Productstype) => {
     try {
       await addProductToCart(currentUser,product);
       updateCartItems(currentUser);
@@ -190,7 +190,7 @@ const fetchProducts = useCallback(async () => {
           
 
   
-const fetchLikedList = useCallback(async (user: User) => {
+const fetchLikedList = useCallback(async (user: UserwithoutPassword) => {
   try {
     const likedList = await fetchLikedListFromDb(user);
     setLikedList(likedList);
@@ -199,7 +199,7 @@ const fetchLikedList = useCallback(async (user: User) => {
   }
 }, []);
 
-  const handleAddLike = async(user:User,product:Productstype) => {
+  const handleAddLike = async(user:UserwithoutPassword,product:Productstype) => {
     try {
       await addLiketoDb(user,product);
       if(user){
@@ -210,7 +210,7 @@ const fetchLikedList = useCallback(async (user: User) => {
     }
   }
     
-  const handleRemoveLike = async (user: User, product: Productstype) => {
+  const handleRemoveLike = async (user: UserwithoutPassword, product: Productstype) => {
     try {
       await removeLikefromDb(user, product);
       if (user) {

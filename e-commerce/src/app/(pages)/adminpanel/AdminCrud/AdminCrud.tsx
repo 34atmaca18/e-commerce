@@ -2,37 +2,16 @@
 
 import React,{useEffect,useState} from 'react'
 import styles from './index.module.scss'
-import { fetchElectronicProducts,fetchFoodProducts } from '@/lib/db'
 import { Productstype } from '@/lib/types'
 import {AddProduct,DeleteProduct} from '../../../const/const'
 import Image from 'next/image'
-import { useAuth } from '@/context/AuthContext'
 import { useProduct } from '@/context/ProductContext'
-import { Loading, Redirecting} from '@/components/skeletons/Skeletons'
-import { useRouter } from 'next/navigation'
-
 
 const AdminCrud = () => {
-  const {isAdmin,pageLoading} = useAuth()
   const {fetchProducts,electronicproducts,foodproducts} = useProduct()
-  const [loading, setLoading] = useState<boolean>(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<Productstype | null>(null);
-  const [redirecting, setRedirecting] = useState<boolean>(false)
-  const router = useRouter()
-
-  useEffect(() => {
-    if(!pageLoading) {
-      if(!isAdmin){
-        setRedirecting(true)
-        router.push('/')
-      }
-      else {
-        setLoading(false);
-      }
-    }
-  }, [isAdmin,pageLoading])
   
   useEffect(() => {
     fetchProducts();
@@ -54,7 +33,7 @@ const AdminCrud = () => {
 
   return (
     <>
-    {loading ? (<Loading />) : ( <div className={styles.adminContainer}>
+    <div className={styles.adminContainer}>
         <div className={styles.titleContainer}>
             <h2>Admin Panel</h2>
         </div>
@@ -134,8 +113,7 @@ const AdminCrud = () => {
         ))}
         </ul>
       </div>
-    </div>)}
-    {redirecting && <Redirecting />}
+    </div>
     {isAddModalOpen && <AddProduct onClose={handleCloseModal} />}
     {isDeleteModalOpen && selectedProduct && <DeleteProduct product={selectedProduct} onClose={handleCloseModal} />}
     </>

@@ -13,12 +13,20 @@ export type FooterProps = {
 };
 
 export type User = {
-  id?: number;
+  id: number;
   name: string;
   email: string;
   password: string;
   country: string;
+  isAdmin?: boolean;
 };
+
+export type UserwithoutPassword = {
+  id: number;
+  name: string;
+  email: string;
+  country: string;
+}
 
 export type Productstype = {
   user_id?:number;
@@ -53,3 +61,22 @@ export type RegisterFormValues = {
   password: string;
   country: string;
 }
+
+export type FormState =
+  | {user?:{
+    id: number,
+    name:string,
+    email: string,
+    country:string
+  },
+  message?: string
+} | undefined;
+
+export type SessionPayload = {
+  userId: string | number;
+  email: string;
+  country: string;
+  name: string;
+  isAdmin: boolean;
+  expiresAt: Date;
+};

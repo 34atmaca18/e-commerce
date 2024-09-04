@@ -1,18 +1,20 @@
 'use client'
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import { Button } from '@mantine/core';
 import Link from 'next/link';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styles from './index.module.scss';
 import { LoginFormInputs } from '@/lib/types';
-import { loginUser } from '@/lib/db';
 import { useAuth } from '@/context/AuthContext';
 import { Loader } from '@mantine/core';
+import { loginServer } from '@/auth/auth';
+import { useRouter } from 'next/navigation';
 
 const LoginForm: React.FC = () => {
   const [isButtonLoading, setisButtonLoading] = useState<boolean>(false)
-  const {login} = useAuth()
+  const {loginClient} = useAuth()
+  const router = useRouter();
   const initialValues: LoginFormInputs = {
     email: '',
     password: '',
@@ -28,16 +30,18 @@ const LoginForm: React.FC = () => {
   });
 
   const onSubmit = async (values: LoginFormInputs) => {
-    setisButtonLoading(true)
-    const { user, error } = await loginUser(values.email, values.password);
-    if (error) {
-      setisButtonLoading(false)
-      alert(error); 
-    } else if (user) {
-      setisButtonLoading(false)
-      login(user);
+    setisButtonLoading(true);
+    const formState = await loginServer(values.email, values.password);
+    
+    if (formState?.message) {
+        setisButtonLoading(false);
+        alert(formState.message); 
+    } else if (formState?.user) {
+        setisButtonLoading(false);
+        loginClient(formState.user);
+        router.push('/')
     }
-  };
+};
 
   return (
     <div className={styles.loginContainer}>
