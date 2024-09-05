@@ -38,11 +38,8 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   useEffect(() => {
     fetchProducts();
-    }, [])
-
-  useEffect(() => {
     updateLocalCartItems();
-  },[])
+    }, [])
 
   const updateCartItems = useCallback(async(user:UserwithoutPassword) => {
     const newItems = await fetchCardProducts(user);

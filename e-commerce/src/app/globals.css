@@ -8,9 +8,4 @@
     text-decoration: none;
 }
 
-.slick-track {
-    display: flex;
-    gap: 5px;
-    position: relative;
-    z-index: 0;
-}
+

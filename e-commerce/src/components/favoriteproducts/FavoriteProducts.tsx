@@ -51,7 +51,9 @@ const FavoriteProducts: React.FC = () => {
       {
         breakpoint: 580, 
         settings: {
-          slidesToShow: 2, 
+          slidesToShow: 1, 
+          centerMode: true,
+          centerPadding: '60px'
         },
       }
     ],

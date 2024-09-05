@@ -16,26 +16,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [pageLoading, setpageLoading] = useState<boolean>(true);
     
     useEffect(() => {
-      const verifyCookie = async () => {
-        try {
-          const res = await fetch('/api/getcookie',
-            {method: 'GET'});
-          if (res.ok) {
-            const data = await res.json();
-            if(data){
-              localStorage.setItem('currentUser', JSON.stringify(data));
-              setCurrentUser(data);
-            }
-          }
-          else {
-            setCurrentUser(null)
-            localStorage.removeItem('currentUser');
-          }
-        } catch (error) {
-          console.error('Error verifying session:', error);
-        }
-      };
-      verifyCookie();
+      const user = localStorage.getItem('currentUser');
+      if (user) {
+        setCurrentUser(JSON.parse(user));
+      }
       setpageLoading(false);
     }, []);
   
