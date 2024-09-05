@@ -12,7 +12,7 @@ export default async function middleware(req: NextRequest) {
   const isAdminRoute = adminRoute.includes(path);
   const cookie = req.cookies.get('session');
   const session = await decrypt(cookie?.value);
-  console.log(session)
+  console.log('current session:',session)
 
   if (isProtectedRoute && !session?.userId) {
     return NextResponse.redirect(new URL('/', req.nextUrl));
