@@ -14,8 +14,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [currentUser, setCurrentUser] = useState<UserwithoutPassword | null>(null);
     
     const fetchCookie = async() => {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-      const res = await fetch(`${apiUrl}/api/getcookie`);
+      const res = await fetch(`/api/getcookie`);
       
       if (res.ok) {
         const data = await res.json();
