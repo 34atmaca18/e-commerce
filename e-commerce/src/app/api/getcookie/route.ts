@@ -1,23 +1,22 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { decrypt } from '@/auth/session';
+import { NextResponse } from 'next/server';
+import { verifySession } from '@/auth/session';
 
-export async function GET(req: NextRequest) {
-    try {
-        const cookie = req.cookies.get('session')?.value; 
-        if (!cookie) {
-            return NextResponse.json({ error: 'Session cookie missing' }, { status: 401 });
-        }
+export async function GET() {
+  const sessionData = await verifySession();
 
-        const session = await decrypt(cookie);  
+  console.log('server sessionData',sessionData);
 
-        if (session) {
-            const { userId, name, email, country } = session;
-            return NextResponse.json({ userId, name, email, country });
-        } else {
-            return NextResponse.json({ error: 'Session invalid or expired' }, { status: 401 });
-        }
-    } catch (error: any) {
-        console.error('Error verifying session:', error.message);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
-    }
+  if (!sessionData) {
+    return NextResponse.json({ error: 'Session cookie not found' }, { status: 404 });
+  }
+
+  const filteredData = {
+    id: sessionData.userId,
+    name: sessionData.name,
+    email: sessionData.email,
+    country: sessionData.country,
+    isAdmin: sessionData.isAdmin
+  }
+
+  return NextResponse.json(filteredData);
 }

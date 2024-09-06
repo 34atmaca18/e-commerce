@@ -5,7 +5,7 @@ import "@mantine/core/styles.css";
 import { Metadata } from 'next';
 import { AuthProvider } from '@/context/AuthContext';
 import { ProductProvider } from '@/context/ProductContext';
-
+import { Toaster } from 'react-hot-toast';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -31,6 +31,7 @@ export default function RootLayout({
         <MantineProvider>
           <AuthProvider>
             <ProductProvider>
+              <Toaster />
               {children}
             </ProductProvider>
           </AuthProvider>

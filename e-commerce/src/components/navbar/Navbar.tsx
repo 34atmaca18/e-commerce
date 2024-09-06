@@ -80,7 +80,8 @@ const Navbar = () => {
                         <span className={styles.productsCounter}>{cartCounter}</span>
                     </div>
                 </Link>
-                <Link className={styles.adminControl} href={'/adminpanel'}>Admin Dashboard</Link>
+                {currentUser?.isAdmin && <Link className={styles.adminControl} href={'/adminpanel'}>Admin Dashboard</Link>
+            }
             </div>
         </nav>
     )

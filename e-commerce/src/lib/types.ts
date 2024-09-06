@@ -26,6 +26,7 @@ export type UserwithoutPassword = {
   name: string;
   email: string;
   country: string;
+  isAdmin: boolean;
 }
 
 export type Productstype = {

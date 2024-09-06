@@ -38,7 +38,7 @@ const LoginForm: React.FC = () => {
         alert(formState.message); 
     } else if (formState?.user) {
         setisButtonLoading(false);
-        loginClient(formState.user);
+        loginClient();
         router.push('/')
     }
 };

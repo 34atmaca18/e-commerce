@@ -6,6 +6,7 @@ import { useAuth } from '@/context/AuthContext'
 import { useProduct } from '@/context/ProductContext'
 import { UserwithoutPassword,cardProducts } from '@/lib/types'
 import { CardLoader } from '@/components/skeletons/Skeletons'
+import toast from 'react-hot-toast'
 import { fetchCardProducts,decreaseProductQuantity,increaseProductQuantity,
     deleteProductsFromCard,deleteSelectedProductsFromCard } from '@/lib/db'
 
@@ -129,6 +130,8 @@ const Card = () => {
             else {
                 clearLocalCart();
             }
+            toast.success(`All products deleted!`);
+
             await fetchProductstoCard(user);
         } catch (error) {
             console.error('error while deleting products',error)
@@ -145,6 +148,7 @@ const Card = () => {
                 removeProductFromLocalCart(product.id);
                 await fetchProductstoCard();
             }
+            toast.success(`Selected product deleted!`);
         } catch (error) {
             console.error('error while deleting products',error)
         }

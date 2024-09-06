@@ -1,30 +1,54 @@
 'use client'
 import React,{createContext,useContext,useState,useEffect} from 'react'
-import {UserwithoutPassword,SessionPayload} from '../lib/types'
+import {UserwithoutPassword} from '../lib/types'
 import { addLocalCartItemsToDb } from '../lib/db';
 
 interface AuthContextType {
     currentUser: UserwithoutPassword | null;
-    pageLoading: boolean;
-    loginClient: (user: UserwithoutPassword) => void;
+    loginClient: () => void;
     logoutClient: () => void;
   }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [currentUser, setCurrentUser] = useState<UserwithoutPassword | null>(null);
-    const [pageLoading, setpageLoading] = useState<boolean>(true);
     
-    useEffect(() => {
-      const user = localStorage.getItem('currentUser');
-      if (user) {
-        setCurrentUser(JSON.parse(user));
+    const fetchCookie = async() => {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      const res = await fetch(`${apiUrl}/api/getcookie`);
+      
+      if (res.ok) {
+        const data = await res.json();
+        return data;
+      } else {
+        return null;
       }
-      setpageLoading(false);
+    }
+    
+    const setUserviaCookie = async() => {
+      const cookieData = await fetchCookie();
+      if (!cookieData){
+        localStorage.removeItem('currentUser');
+      }
+      else {
+        localStorage.setItem('currentUser', JSON.stringify(cookieData));
+      }
+    }
+
+    useEffect(() => {
+      const runItOrder = async() => {
+        await setUserviaCookie()
+        const user = localStorage.getItem('currentUser');
+        if (user) {
+          setCurrentUser(JSON.parse(user));
+        }
+      }
+      runItOrder();
     }, []);
   
-    const loginClient = async (user: UserwithoutPassword) => {
+    const loginClient = async () => {
       try {
+        const user = await fetchCookie()
         setCurrentUser(user);
         localStorage.setItem('currentUser', JSON.stringify(user));
         const localCartItems = JSON.parse(localStorage.getItem('localCart') || '[]');
@@ -44,7 +68,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
     
     return (
-      <AuthContext.Provider value={{ pageLoading,currentUser, loginClient, logoutClient }}>
+      <AuthContext.Provider value={{ currentUser, loginClient, logoutClient }}>
         {children}
       </AuthContext.Provider>
     );

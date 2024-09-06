@@ -2,6 +2,7 @@
 import React,{createContext,useContext,useState,useEffect,useCallback} from 'react'
 import { cardProducts, Productstype,UserwithoutPassword } from '@/lib/types';
 import { fetchElectronicProducts,fetchFoodProducts,fetchCardProducts,addProductToCart,addLiketoDb,fetchLikedListFromDb,removeLikefromDb } from '@/lib/db'
+import { toast } from 'react-hot-toast';
 
 interface ProductContextType {
     electronicproducts: Productstype[];
@@ -99,6 +100,7 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
         ...prevState,
         [productId]: { loading: false, added: true }
       }));
+      toast.success(`${product.name} added to the cart.`);
     } catch (error: any) {
       console.error('Failed while adding to cart', error.message);
       setProductStates(prevState => ({
@@ -129,11 +131,11 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
       }
         localStorage.setItem('localCart', JSON.stringify(localCart));
         setLocalCartItems(localCart);
-        console.log('product added to localcart:',product)
         setProductStates(prevState => ({
             ...prevState,
             [productId]: { loading: false, added: true }
         }));
+        toast.success(`${product.name} added to the cart.`);
     } catch (error: any) {
         console.error('Failed while adding to local cart', error.message);
         setProductStates(prevState => ({
